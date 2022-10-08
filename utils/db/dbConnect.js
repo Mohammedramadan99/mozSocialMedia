@@ -4,7 +4,7 @@ const dbConnect = async () => {
   console.log(process.env.MONGODB_URL);
   try {
     await mongoose.connect(
-      process.env.MONGODB_URL, // "mongodb://localhost:27017/mozSocialMedia"
+      "mongodb://localhost:27017/mozSocialMedia", //process.env.MONGODB_URL,
       {
         // useCreateIndex: true,
         // useFindAndModify: false,

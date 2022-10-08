@@ -126,12 +126,12 @@ const commentSlices = createSlice({
     builder.addCase(createCommentAction.fulfilled, (state, action) => {
       state.loading = false;
       state.commentCreated = action?.payload;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(createCommentAction.rejected, (state, action) => {
       state.loading = false;
-      state.commentCreated = undefined;
+      state.commentCreated = null;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
@@ -143,12 +143,12 @@ const commentSlices = createSlice({
     builder.addCase(deleteCommentAction.fulfilled, (state, action) => {
       state.loading = false;
       state.commentDeleted = action?.payload;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(deleteCommentAction.rejected, (state, action) => {
       state.loading = false;
-      state.commentCreated = undefined;
+      state.commentCreated = null;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
@@ -164,12 +164,12 @@ const commentSlices = createSlice({
       state.loading = false;
       state.commentUpdated = action?.payload;
       state.isUpdate = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(updateCommentAction.rejected, (state, action) => {
       state.loading = false;
-      state.commentCreated = undefined;
+      state.commentCreated = null;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
@@ -181,12 +181,12 @@ const commentSlices = createSlice({
     builder.addCase(fetchCommentAction.fulfilled, (state, action) => {
       state.loading = false;
       state.commentDetails = action?.payload;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(fetchCommentAction.rejected, (state, action) => {
       state.loading = false;
-      state.commentCreated = undefined;
+      state.commentCreated = null;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });

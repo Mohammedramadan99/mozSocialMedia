@@ -449,9 +449,8 @@ const usersSlices = createSlice({
       state.loggedOut = false;
     });
     builder.addCase(registerUserAction.rejected, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
       state.registered = false;
     });
@@ -469,7 +468,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(passwordResetTokenAction.rejected, (state, action) => {
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
 
@@ -487,7 +486,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(passwordResetAction.rejected, (state, action) => {
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
 
@@ -506,7 +505,7 @@ const usersSlices = createSlice({
     builder.addCase(fetchUserDetailsAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
 
@@ -525,7 +524,7 @@ const usersSlices = createSlice({
     builder.addCase(blockUserAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
     //unBlock user
@@ -543,7 +542,7 @@ const usersSlices = createSlice({
     builder.addCase(unBlockUserAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
     //All Users
@@ -561,7 +560,7 @@ const usersSlices = createSlice({
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
 
@@ -580,7 +579,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(followUserAction.rejected, (state, action) => {
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.unFollowed = null;
       state.serverErr = action?.error?.message;
     });
@@ -617,7 +616,7 @@ const usersSlices = createSlice({
       state.loggedOut = false;
     });
     builder.addCase(loginUserAction.rejected, (state, action) => {
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
@@ -656,7 +655,7 @@ const usersSlices = createSlice({
     builder.addCase(updateUserAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
     //update password
@@ -675,7 +674,7 @@ const usersSlices = createSlice({
     builder.addCase(updatePasswordAction.rejected, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
     });
 
@@ -692,7 +691,7 @@ const usersSlices = createSlice({
       state.serverErr = null;
     });
     builder.addCase(uploadCoverPhototAction.rejected, (state, action) => {
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
@@ -709,7 +708,7 @@ const usersSlices = createSlice({
       state.serverErr = null;
     });
     builder.addCase(uploadProfilePhototAction.rejected, (state, action) => {
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
@@ -725,7 +724,7 @@ const usersSlices = createSlice({
       state.serverErr = null;
     });
     builder.addCase(logoutAction.rejected, (state, action) => {
-      state.appErr = action?.payload?.message;
+      state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });

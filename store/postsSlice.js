@@ -171,15 +171,14 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
 const postSlice = createSlice({
   name: "post",
   initialState: {
-    appErr: undefined,
-    serverErr: undefined,
+    serverErr: null,
     isCreated: false,
     isUpdated: false,
   },
   reducers: {
     reset: (state) => {
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
       state.isCreated = false;
     },
   },
@@ -195,8 +194,8 @@ const postSlice = createSlice({
       state.postCreated = action?.payload;
       state.loading = false;
       state.isCreated = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(createpostAction.rejected, (state, action) => {
       state.loading = false;
@@ -214,8 +213,8 @@ const postSlice = createSlice({
     builder.addCase(updatePostAction.fulfilled, (state, action) => {
       state.postUpdated = action?.payload;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
       state.isUpdated = false;
     });
     builder.addCase(updatePostAction.rejected, (state, action) => {
@@ -235,8 +234,8 @@ const postSlice = createSlice({
       state.postUpdated = action?.payload;
       state.isDeleted = false;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(deletePostAction.rejected, (state, action) => {
       state.loading = false;
@@ -251,8 +250,8 @@ const postSlice = createSlice({
     builder.addCase(fetchPostsAction.fulfilled, (state, action) => {
       state.postLists = action?.payload;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(fetchPostsAction.rejected, (state, action) => {
       state.loading = false;
@@ -267,8 +266,8 @@ const postSlice = createSlice({
     builder.addCase(fetchPostDetailsAction.fulfilled, (state, action) => {
       state.postDetails = action?.payload;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(fetchPostDetailsAction.rejected, (state, action) => {
       state.loading = false;
@@ -282,8 +281,8 @@ const postSlice = createSlice({
     builder.addCase(toggleAddLikesToPost.fulfilled, (state, action) => {
       state.likes = action?.payload;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(toggleAddLikesToPost.rejected, (state, action) => {
       state.loading = false;
@@ -297,8 +296,8 @@ const postSlice = createSlice({
     builder.addCase(toggleAddDisLikesToPost.fulfilled, (state, action) => {
       state.dislikes = action?.payload;
       state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.appErr = null;
+      state.serverErr = null;
     });
     builder.addCase(toggleAddDisLikesToPost.rejected, (state, action) => {
       state.loading = false;

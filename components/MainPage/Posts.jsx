@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { userProfileAction } from '../../store/usersSlice'
 import dynamic from 'next/dynamic'
 const Post = dynamic(() => import('./Post'))
-function Posts({ direction, user })
+function Posts({ direction, user, posts })
 {
     const dispatch = useDispatch()
     const router = useRouter()

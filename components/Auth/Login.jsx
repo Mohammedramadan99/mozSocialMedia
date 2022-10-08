@@ -28,11 +28,11 @@ export default function Login()
         dispatch(loginUserAction(formData))
         console.log('sssss')
     }
-    // if (userAuth)
-    // {
-    //     dispatch(reset())
-    //     router.push("/");
-    // }
+    if (userAuth)
+    {
+        dispatch(reset())
+        router.push("/");
+    }
 
     return (
         <div className='login'>

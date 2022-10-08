@@ -24,7 +24,7 @@ handler.post(async (req, res) =>
         res.json(user);
     } catch (error)
     {
-        res.json(error);
+        res.json(error.message);
     }
 });
 

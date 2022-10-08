@@ -44,8 +44,8 @@ function Post({ direction, post, profile })
     }
     useEffect(() =>
     {
-        const liked = post.likes.find(like => like === userAuth?._id)
-        const disLiked = post.disLikes.find(dislike => dislike === userAuth?._id)
+        const liked = post?.likes.find(like => like === userAuth?._id)
+        const disLiked = post?.disLikes.find(dislike => dislike === userAuth?._id)
         if (liked)
         {
             setShowLiked(true)
@@ -60,7 +60,7 @@ function Post({ direction, post, profile })
         {
             setShowDisliked(false)
         }
-    }, [post.likes, postLists, showLiked, showDisliked])
+    }, [post?.likes, postLists, showLiked, showDisliked])
 
     return (
         <div className={`${direction}__posts__container__container`}>

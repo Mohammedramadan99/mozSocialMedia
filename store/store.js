@@ -11,26 +11,9 @@ const combinedReducer = combineReducers({
   comments: commentsReducer,
 });
 
-// const masterReducer = (state, action) => {
-//     if (action.type === HYDRATE) {
-//         const nextState = {
-//             ...state, // use previous state
-//             counter: {
-//                 count: state.counter.count + action.payload.counter.count,
-//             },
-//             users: {
-//                 users: [...action.payload.users.users, ...state.users.users]
-//             }
-//         }
-//         return nextState;
-//     } else {
-//     return combinedReducer(state, action)
-//   }
-// }
-
 export const makeStore = () =>
   configureStore({
     reducer: combinedReducer,
   });
 
-export const wrapper = createWrapper(makeStore, { debug: true });
+export const wrapper = createWrapper(makeStore);
