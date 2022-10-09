@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import PeopleIcon from '@mui/icons-material/People'
 import Person2Icon from '@mui/icons-material/Person2'
-import MayKnow from '../components/People/MayKnow'
-import Followers from '../components/People/Followers'
 import { useDispatch } from 'react-redux'
 import { fetchUsersAction } from '../store/usersSlice'
+import dynamic from 'next/dynamic'
+const Followers = dynamic(() => import('../components/People/Followers'))
+const MayKnow = dynamic(() => import('../components/People/MayKnow'))
 function People()
 {
     const dispatch = useDispatch()

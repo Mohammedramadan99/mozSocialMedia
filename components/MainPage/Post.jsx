@@ -4,11 +4,12 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { toggleAddLikesToPost, toggleAddDisLikesToPost, fetchPostsAction } from "../../store/postsSlice"
 import { createCommentAction } from '../../store/commentSlices'
-import Comment from './Comment';
 import { useDispatch, useSelector } from 'react-redux'
 import Alert from '../Alert';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+const Comment = dynamic(() => import('./Comment'))
 
 function Post({ direction, post, profile })
 {

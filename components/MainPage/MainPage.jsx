@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 
-import Spinner from '../Spinner'
 const Posts = dynamic(() => import('./Posts'))
 
 const Sidebar = dynamic(() => import('./Sidebar'))
