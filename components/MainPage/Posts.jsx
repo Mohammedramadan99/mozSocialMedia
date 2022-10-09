@@ -16,7 +16,8 @@ import Link from 'next/link'
 import { userProfileAction } from '../../store/usersSlice'
 import dynamic from 'next/dynamic'
 const Post = dynamic(() => import('./Post'))
-function Posts({ direction, user, posts })
+import { wrapper } from "../../store/store";
+function Posts({ direction, user })
 {
     const dispatch = useDispatch()
     const router = useRouter()
@@ -72,5 +73,15 @@ function Posts({ direction, user, posts })
         </div>
     )
 }
+
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    (store) =>
+        async ({ req, res }) =>
+        {
+            // const response = await fetch("http://localhost:3000/api/posts");
+            // const { data } = await response.json();
+            await store.dispatch(fetchPostsAction());
+        });
 
 export default Posts
