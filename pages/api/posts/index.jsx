@@ -60,35 +60,14 @@ handler.use(isAuth).post(async (req, res) =>
     try
     {
 
-        let images = [];
-        if (typeof req.body.images === "string")
-        {
-            images.push(req.body.images);
-        } else
-        {
-            images = req.body.images;
-        }
+        const result = await cloudinary.v2.uploader.upload(req.body.image, {
+            folder: "blog",
+        });
 
-        const imageLink = [];
-
-        for (let i = 0; i < images?.length; i++)
-        {
-            const result = await cloudinary.v2.uploader.upload(images[i], {
-                folder: "blog",
-            });
-
-            imageLink.push({
-                url: result.secure_url,
-            });
-        }
-
-        req.body.images = imageLink;
-
-        const url = imageLink[0].url
         const post = await Post.create({
             ...req.body,
             user: id,
-            image: url
+            image: result.secure_url
         });
         //update the user post count
         await User.findByIdAndUpdate(

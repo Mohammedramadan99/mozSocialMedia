@@ -3,7 +3,6 @@ import "colors";
 const dbConnect = async () => {
   try
   {
-    console.log(process.env.MONGODB_URL);
     await mongoose.connect(
       process.env.MONGODB_URL, //"mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia", //'mongodb://localhost:27017/mozSocialMedia'
       {
@@ -13,7 +12,9 @@ const dbConnect = async () => {
         useNewUrlParser: true,
       }
     );
-    console.log("Db is Connected Successfully".green.inverse);
+    console.log(
+      `Db is Connected Successfully: ${process.env.MONGODB_URL}`.green.inverse
+    );
   } catch (error) {
     console.log(`Error ${error.message}`.red.inverse);
   }
