@@ -127,7 +127,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/api/posts/likes`,
+        `/api/posts/likes`,
         { postId },
         config
       );
@@ -154,7 +154,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/api/posts/dislikes`,
+        `/api/posts/dislikes`,
         { postId },
         config
       );
