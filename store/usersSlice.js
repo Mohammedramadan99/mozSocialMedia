@@ -691,7 +691,7 @@ const usersSlices = createSlice({
       state.serverErr = null;
     });
     builder.addCase(uploadCoverPhototAction.rejected, (state, action) => {
-      state.appErr = action?.payload;
+      state.appErr = action?.payload || action.payload?.error?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
@@ -708,7 +708,7 @@ const usersSlices = createSlice({
       state.serverErr = null;
     });
     builder.addCase(uploadProfilePhototAction.rejected, (state, action) => {
-      state.appErr = action?.payload;
+      state.appErr = action?.payload || action.payload?.error?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
     });

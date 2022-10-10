@@ -25,7 +25,7 @@ function userDetails()
       dispatch(reset())
       router.push('/')
     }
-  }, [coverPhoto, profilePhoto])
+  }, [dispatch,coverPhoto, profilePhoto])
   return (
     <UserDetails id={id} />
   )
