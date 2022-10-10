@@ -171,6 +171,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
 const postSlice = createSlice({
   name: "post",
   initialState: {
+    postLists:[],
     serverErr: null,
     isCreated: false,
     isUpdated: false,
