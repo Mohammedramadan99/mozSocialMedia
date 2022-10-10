@@ -40,7 +40,7 @@ function Posts({ direction, user })
 
     useEffect(() =>
     {
-        !id && dispatch(fetchPostsAction(""));
+     !id && dispatch(fetchPostsAction(""));
     }, [isCreated, postCreated, dispatch, likes, dislikes, commentCreated]);
     // post 
 
@@ -50,12 +50,6 @@ function Posts({ direction, user })
     {
         setShowComments({ post: post._id, status: !showComments.status })
     }
-
-
-
-
-    // we need to refresh profile data if we i
-    console.log(user)
 
     return (
         <div className={direction}>
@@ -75,13 +69,13 @@ function Posts({ direction, user })
 }
 
 
-export const getServerSideProps = wrapper.getServerSideProps(
-    (store) =>
-        async ({ req, res }) =>
-        {
-            // const response = await fetch("http://localhost:3000/api/posts");
-            // const { data } = await response.json();
-            await store.dispatch(fetchPostsAction());
-        });
+// export const getServerSideProps = wrapper.getServerSideProps(
+//     (store) =>
+//         async ({ req, res }) =>
+//         {
+//             // const response = await fetch("http://localhost:3000/api/posts");
+//             // const { data } = await response.json();
+//             // await store.dispatch(fetchPostsAction());
+//         });
 
 export default Posts

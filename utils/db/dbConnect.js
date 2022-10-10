@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import "colors";
 const dbConnect = async () => {
-  try {
+  try
+  {
+    console.log(process.env.MONGODB_URL);
     await mongoose.connect(
-      "mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia", // "mongodb://localhost:27017/mozSocialMedia" , process.env.MONGODB_URL
+      process.env.MONGODB_URL, // "mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia",
       {
         // useCreateIndex: true,
         // useFindAndModify: false,

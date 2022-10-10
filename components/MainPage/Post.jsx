@@ -47,6 +47,9 @@ function Post({ direction, post, profile })
     {
         const liked = post?.likes.find(like => like === userAuth?._id)
         const disLiked = post?.disLikes.find(dislike => dislike === userAuth?._id)
+        console.log(liked)
+        console.log(post)
+        console.log(disLiked)
         if (liked)
         {
             setShowLiked(true)
