@@ -50,8 +50,12 @@ function Posts({ direction, user })
     {
         setShowComments({ post: post._id, status: !showComments.status })
     }
-
-    return (
+    if (!router.isFallback && !postLists)
+    {
+        return <div>404</div>;
+    }
+    return router.isFallback ? (<div>Loading...</div>)
+        : (
         <div className={direction}>
             <WritePost dir={direction} userDetails={user} />
             {direction === "mainPage__middle" ? (
