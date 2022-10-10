@@ -103,7 +103,7 @@ handler.use(isAuth).post(async (req, res) =>
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '1mb' 
+            sizeLimit: '4mb' 
         }
     }
 }
