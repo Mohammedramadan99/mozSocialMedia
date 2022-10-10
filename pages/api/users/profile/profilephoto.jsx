@@ -7,6 +7,13 @@ import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
 import photoUpload from '../../../../utils/photoUpload';
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '25mb' // Set desired value here
+        }
+    }
+}
 const handler = nc();
 
 //----------------------------------------------------------------
@@ -44,12 +51,6 @@ handler.use(isAuth).put(photoUpload.single("image"), async (req, res) =>
         res.json(error.message);
     }
 })
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '1mb' // Set desired value here
-        }
-    }
-}
+
 
 export default handler;
