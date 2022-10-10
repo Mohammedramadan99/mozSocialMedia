@@ -8,6 +8,15 @@ import cloudinary from 'cloudinary'
 import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
 import cloudinaryUploadImg from '../../../utils/cloudinary'
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '25mb'
+        }
+    }
+}
+
 const handler = nc();
 
 //----------------------------------------------------------------
@@ -100,11 +109,6 @@ handler.use(isAuth).post(async (req, res) =>
     }
 
 })
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '4mb' 
-        }
-    }
-}
+
+
 export default handler;
