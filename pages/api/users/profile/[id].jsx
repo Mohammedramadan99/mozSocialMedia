@@ -85,5 +85,11 @@ handler.get(async (req, res) =>
 //     }
 
 // })
-
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '1mb' // Set desired value here
+        }
+    }
+}
 export default handler;

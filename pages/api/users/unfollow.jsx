@@ -27,4 +27,11 @@ handler.use(isAuth).put(async (req, res) =>
 
     res.json("You have successfully unfollowed this user");
 })
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '1mb' // Set desired value here
+        }
+    }
+}
 export default handler;
