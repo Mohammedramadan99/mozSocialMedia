@@ -6,6 +6,13 @@ import cloudinary from 'cloudinary'
 import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '25mb' // Set desired value here
+        }
+    }
+}
 const handler = nc();
 
 //----------------------------------------------------------------
@@ -44,11 +51,5 @@ handler.use(isAuth).put(async (req, res) =>
     }
 })
 
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '1mb' // Set desired value here
-        }
-    }
-}
+
 export default handler;
