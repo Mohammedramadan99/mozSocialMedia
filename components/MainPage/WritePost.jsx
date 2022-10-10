@@ -15,8 +15,8 @@ function WritePost({ dir, userDetails })
     const { isCreated, loading } = useSelector(state => state.posts)
     // const { categoryList } = useSelector(state => state?.category)
     const [message, setMessage] = useState('')
-    const [images, setImages] = useState([]);
-    const [imagePreview, setImagePreview] = useState([])
+    const [image, setImage] = useState('');
+    const [imagePreview, setImagePreview] = useState('')
     const [formData, setFormDate] = useState({
         description: "",
         category: "",
@@ -28,24 +28,18 @@ function WritePost({ dir, userDetails })
 
     const createPostImagesChange = (e) =>
     {
-        const files = Array.from(e.target.files);
-        setImages([]);
-        setImagePreview([]);
+        const file = e.target.files[0];
 
-        files.forEach((file) =>
+        const Reader = new FileReader();
+        Reader.readAsDataURL(file);
+
+        Reader.onload = () =>
         {
-            const reader = new FileReader();
-
-            reader.onload = () =>
+            if (Reader.readyState === 2)
             {
-                if (reader.readyState === 2)
-                {
-                    setImagePreview((old) => [...old, reader.result]);
-                    setImages((old) => [...old, reader.result]);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
+                setImage(Reader.result);
+            }
+        };
     };
     const addPhotoHandler = () =>
     {
@@ -66,7 +60,7 @@ function WritePost({ dir, userDetails })
             // const allData = new FormData();
             // allData.append("description", formData?.description);
             // allData.append("images", images);
-            const all = { description: formData.description, images }
+            const all = { description: formData.description, image }
             dispatch(createpostAction(all))
 
         } else

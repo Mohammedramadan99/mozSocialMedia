@@ -548,6 +548,7 @@ const usersSlices = createSlice({
     //All Users
     builder.addCase(fetchUsersAction.pending, (state, action) => {
       state.loading = true;
+      state.usersList = [];
       state.appErr = null;
       state.serverErr = null;
     });
@@ -559,6 +560,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       console.log(action.payload);
+      state.usersList = [];
       state.loading = false;
       state.appErr = action?.payload;
       state.serverErr = action?.error?.message;
