@@ -5,7 +5,7 @@ const dbConnect = async () => {
   {
     console.log(process.env.MONGODB_URL);
     await mongoose.connect(
-      process.env.MONGODB_URL, // "mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia",
+      process.env.MONGODB_URL, //"mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia", //
       {
         // useCreateIndex: true,
         // useFindAndModify: false,
