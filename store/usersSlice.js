@@ -59,7 +59,7 @@ export const userProfileAction = createAsyncThunk(
     };
     //http call
     try {
-      const { data } = await axios.get(`/api/users/profile/${id}`, config);
+      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/users/profile/${id}`, config);
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -85,7 +85,7 @@ export const followUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `/api/users/follow`,
+        `https://mozzsocialmedia.vercel.app/api/users/follow`,
         { followId: userToFollowId },
         config
       );
@@ -114,7 +114,7 @@ export const unfollowUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `/api/users/unfollow`,
+        `https://mozzsocialmedia.vercel.app/api/users/unfollow`,
         { unFollowId },
         config
       );
@@ -143,7 +143,7 @@ export const updateUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `/api/users`,
+        `https://mozzsocialmedia.vercel.app/api/users`,
         {
           lastName: userData?.lastName,
           firstName: userData?.firstName,
@@ -179,7 +179,7 @@ export const updatePasswordAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `/api/users/password`,
+        `https://mozzsocialmedia.vercel.app/api/users/password`,
         {
           password,
         },
@@ -203,7 +203,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       console.log(id);
-      const { data } = await axios.get(`/api/users/${id}`);
+      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/users/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -248,7 +248,7 @@ export const blockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `/api/users/block-user/${id}`,
+        `https://mozzsocialmedia.vercel.app/api/users/block-user/${id}`,
         {},
         config
       );
@@ -274,7 +274,7 @@ export const unBlockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `/api/users/unblock-user/${id}`,
+        `https://mozzsocialmedia.vercel.app/api/users/unblock-user/${id}`,
         {},
         config
       );
@@ -319,7 +319,7 @@ export const uploadCoverPhototAction = createAsyncThunk(
       console.log(coverImg);
       const img = { image: coverImg.images[0] };
       const { data } = await axios.put(
-        `/api/users/profile/uploadcoverphoto`,
+        `https://mozzsocialmedia.vercel.app/api/users/profile/uploadcoverphoto`,
         coverImg,
         config
       );
@@ -350,7 +350,7 @@ export const uploadProfilePhototAction = createAsyncThunk(
       // formData.append("image", userImg?.image);
       console.log(userImg);
       const { data } = await axios.put(
-        `/api/users/profile/profilephoto`,
+        `https://mozzsocialmedia.vercel.app/api/users/profile/profilephoto`,
         userImg,
         config
       );
@@ -374,7 +374,7 @@ export const passwordResetTokenAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `/api/users/forget-password-token`,
+        `https://mozzsocialmedia.vercel.app/api/users/forget-password-token`,
         { email },
         config
       );
@@ -400,7 +400,7 @@ export const passwordResetAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `/api/users/reset-password`,
+        `https://mozzsocialmedia.vercel.app/api/users/reset-password`,
         { password: user?.password, token: user?.token },
         config
       );
