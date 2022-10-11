@@ -13,7 +13,7 @@ handler.post(async (req, res) =>
     //check if user exists
     const userFound = await User.findOne({ email });
     //check if blocked
-    if (userFound)
+    if (userFound && (await userFound.isPasswordMatched(password)))
     {
         //Check if password is match
         res.json({
