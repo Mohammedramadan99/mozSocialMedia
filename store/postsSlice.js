@@ -91,7 +91,7 @@ export const fetchPostsAction = createAsyncThunk(
   "post/list",
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`api/posts`);
+      const { data } = await axios.get(`/api/posts`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
