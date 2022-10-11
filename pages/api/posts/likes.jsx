@@ -70,13 +70,6 @@ handler.use(isAuth).put(async (req, res) =>
         res.json(post);
     }
 })
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '1mb' // Set desired value here
-        }
-    }
-}
 export default handler;
 
 

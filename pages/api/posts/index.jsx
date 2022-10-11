@@ -1,14 +1,11 @@
+import mongoose from 'mongoose';
 import nc from 'next-connect';
 import Post from '../../../models/Post';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
-import Filter from "bad-words"
-import fs from "fs"
 import cloudinary from 'cloudinary'
 import dbConnect from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
-import cloudinaryUploadImg from '../../../utils/cloudinary'
-import mongoose from 'mongoose';
 
 export const config = {
     api: {
@@ -27,10 +24,10 @@ const handler = nc();
 handler.get(async (req, res) =>
 {
     await dbConnect();
-    const posts = await Post.find({}).populate({ path: "comments", model: Comment }).populate("user")
-
-    res.json(posts);
-    await mongoose.disconnect();
+    const posts = await Post.find({})
+    res.json(posts)
+    await mongoose.disconnect()
+;
 })
 //----------------------------------------------------------------
 //CREATE POST
@@ -40,8 +37,9 @@ handler.use(isAuth).post(async (req, res) =>
     await dbConnect();
     const { id } = req.user;
     console.log("the id == " + req.user)
-    //Display message if user is blocked
-    //Check for bad words
+    
+    // Display message if user is blocked
+    // Check for bad words
     // const filter = new Filter();
     // const isProfane = filter.isProfane(req.body.title, req.body.description);
     // //Block user
@@ -61,7 +59,6 @@ handler.use(isAuth).post(async (req, res) =>
 
     try
     {
-
         const result = await cloudinary.v2.uploader.upload(req.body.image, {
             folder: "blog",
         });
@@ -84,12 +81,10 @@ handler.use(isAuth).post(async (req, res) =>
 
         //Remove uploaded img
         res.json(post);
-        await mongoose.disconnect;
     } catch (error)
     {
         res.json(error.message);
     }
-
 })
 
 

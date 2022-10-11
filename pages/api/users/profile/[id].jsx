@@ -26,7 +26,6 @@ handler.get(async (req, res) =>
     {
         res.json(error);
     }
-    await mongoose.disconnect();
 
 })
 //----------------------------------------------------------------
