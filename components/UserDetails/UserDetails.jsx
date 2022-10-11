@@ -6,10 +6,13 @@ import Posts from '../MainPage/Posts'
 import Sidebar from './Sidebar'
 import { useSelector } from 'react-redux'
 import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePhototAction, uploadCoverPhototAction, reset, userProfileAction } from '../../store/usersSlice'
+import { useRouter } from 'next/router'
 
-function UserDetails({ id })
+function UserDetails()
 {
     const dispatch = useDispatch()
+    const router = useRouter()
+    const { id } = router.query
     const [images, setImages] = useState("");
     const [imagePreview, setImagePreview] = useState("")
     //User data from store

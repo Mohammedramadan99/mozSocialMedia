@@ -6,6 +6,7 @@ import fs from "fs"
 import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
+import mongoose from 'mongoose';
 const handler = nc();
 
 //----------------------------------------------------------------
@@ -14,17 +15,19 @@ const handler = nc();
 
 handler.get(async (req, res) =>
 {
+    await dbConnect()
     const { id } = req.query;
-    console.log(req.params)
     //check if user id is valid
     try
     {
-        const user = await User.findById(id).populate("posts")
+        const user = await User.findById(id)
         res.json(user);
     } catch (error)
     {
         res.json(error);
     }
+    await mongoose.disconnect();
+
 })
 //----------------------------------------------------------------
 //CREATE POST
@@ -85,11 +88,5 @@ handler.get(async (req, res) =>
 //     }
 
 // })
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '1mb' // Set desired value here
-        }
-    }
-}
+
 export default handler;

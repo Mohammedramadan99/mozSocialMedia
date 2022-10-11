@@ -49,7 +49,8 @@ export const userProfileAction = createAsyncThunk(
   "user/profile",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = process.browser && getState()?.users;
+    console.log(id)
+    const user = getState().users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -58,7 +59,7 @@ export const userProfileAction = createAsyncThunk(
     };
     //http call
     try {
-      const { data } = await axios.get(`api/users/profile/${id}`, config);
+      const { data } = await axios.get(`/api/users/profile/${id}`, config);
       return data;
     } catch (error) {
       if (!error?.response) {

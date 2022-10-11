@@ -15,9 +15,4 @@ export default Index;
 //   await dbConnect();
 //   const res = await axios.get("http://localhost:3000/api/posts");
 //   console.log("posts" + res.data);
-//   return {
-//     props: {
-//       posts: res.data,
-//     },
-//   };
 // };

@@ -14,20 +14,16 @@ function userDetails()
     coverPhoto,
     profilePhoto
   } = users;
-  useEffect(() =>
-  {
-    dispatch(userProfileAction(id))
-  }, [id])
-  useEffect(() =>
-  {
-    if (coverPhoto !== null || profilePhoto !== null)
-    {
-      dispatch(reset())
-      router.push('/')
-    }
-  }, [dispatch,coverPhoto, profilePhoto])
+  // useEffect(() =>
+  // {
+  //   if (coverPhoto !== null || profilePhoto !== null)
+  //   {
+  //     dispatch(reset())
+  //     router.push('/')
+  //   }
+  // }, [dispatch,coverPhoto, profilePhoto])
   return (
-    <UserDetails id={id} />
+    <UserDetails />
   )
 }
 

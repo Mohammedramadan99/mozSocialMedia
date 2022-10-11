@@ -29,6 +29,8 @@ handler.get(async (req, res) =>
     const posts = await Post.find({}).populate({ path: "comments", model: Comment }).populate("user")
 
     res.json(posts);
+    await disconnect();
+
 })
 //----------------------------------------------------------------
 //CREATE POST
@@ -86,6 +88,7 @@ handler.use(isAuth).post(async (req, res) =>
     {
         res.json(error.message);
     }
+    await disconnect();
 
 })
 
