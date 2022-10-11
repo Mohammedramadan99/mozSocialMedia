@@ -24,15 +24,15 @@ function userDetails()
   //   }
   // }, [dispatch,coverPhoto, profilePhoto])
   return (
-    <UserDetails />
+    <UserDetails id={id} />
   )
 }
 
 export default userDetails
 
-export const getServerSideProps = wrapper.getServerSideProps( store =>  ({ req, res,params}) =>
-{
+// export const getServerSideProps = wrapper.getServerSideProps( store =>  ({ req, res,params}) =>
+// {
 
-  const data = { req, id:params.id }
-  store.dispatch(userProfileAction(data))
-});
+//   const data = { req, id:params.id }
+//   store.dispatch(userProfileAction(data))
+// });
