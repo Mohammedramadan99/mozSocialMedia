@@ -69,10 +69,10 @@ function UserDetails()
         const theImage = { images }
         dispatch(uploadCoverPhototAction(theImage))
     }
-    // useEffect(() =>
-    // {
-    //     dispatch(userProfileAction(id))
-    // }, [dispatch, followed, unFollowed])
+    useEffect(() =>
+    {
+        dispatch(userProfileAction(id))
+    }, [dispatch,id, followed, unFollowed])
 
     return loading ? <Spinner /> : (
         <div className='user'>

@@ -4,6 +4,7 @@ import User from '../../../models/User';
 import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
 import { signToken } from '../../../utils/auth';
 import generateToken from '../../../utils/token/generateToken';
+import mongoose from 'mongoose';
 
 const handler = nc();
 
@@ -22,6 +23,7 @@ handler.get(async (req, res) =>
     {
         res.json(error);
     }
+    await mongoose.disconnect()
 });
 
 export default handler;
