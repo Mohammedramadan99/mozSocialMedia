@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import baseURL from '../utils/baseURL'
 export const registerUserAction = createAsyncThunk(
   "users/register",
   async (user, { rejectWithValue, dispatch }) => {
