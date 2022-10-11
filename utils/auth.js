@@ -4,7 +4,7 @@ import User from "../models/User";
 
 const signToken = (user) => {
   console.log("ss");
-  console.log(process.env.JWT_KEY);
+  console.log(process.env.JWT_SECRET);
   return jwt.sign(
     {
       _id: user._id,
@@ -13,7 +13,7 @@ const signToken = (user) => {
       isAdmin: user.isAdmin,
     },
 
-    process.env.JWT_KEY,
+    process.env.JWT_SECRET,
     {
       expiresIn: "30d",
     }
