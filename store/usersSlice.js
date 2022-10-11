@@ -309,7 +309,7 @@ export const uploadCoverPhototAction = createAsyncThunk(
   "user/cover-photo",
   async (coverImg, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser && getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -340,7 +340,7 @@ export const uploadProfilePhototAction = createAsyncThunk(
   async (userImg, { rejectWithValue, getState, dispatch }) => {
     console.log(userImg);
     //get user token
-    const user = getState()?.users;
+    const user = process.browser && getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {

@@ -8,7 +8,7 @@ export const createCommentAction = createAsyncThunk(
   "comment/create",
   async (comment, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -40,7 +40,7 @@ export const deleteCommentAction = createAsyncThunk(
   "comment/delete",
   async (commentId, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -65,7 +65,7 @@ export const updateCommentAction = createAsyncThunk(
   "comment/update",
   async (comment, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -96,7 +96,7 @@ export const fetchCommentAction = createAsyncThunk(
   "comment/fetch-details",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {

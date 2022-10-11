@@ -13,7 +13,7 @@ export const createpostAction = createAsyncThunk(
   async (post, { rejectWithValue, getState, dispatch }) => {
     // console.log(post);
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -41,7 +41,7 @@ export const updatePostAction = createAsyncThunk(
   async (post, { rejectWithValue, getState, dispatch }) => {
     console.log(post);
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -66,7 +66,7 @@ export const deletePostAction = createAsyncThunk(
   "post/delete",
   async (postId, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -118,7 +118,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
   "post/like",
   async (postId, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -145,7 +145,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
   "post/dislike",
   async (postId, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser &&  getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
