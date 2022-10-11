@@ -71,7 +71,7 @@ function Post({ direction, post, profile })
         <div className={`${direction}__posts__container__container`} style={{position:'relative'}}>
             {postLoading && <Spinner/>}
             <div className={`${direction}__posts__container__post`}>
-                <Link href={post ? `/user/${post?.user}` : profile && `/user/${profile._id}`}>
+                <Link href={post ? `/user/${post?.user.id}` : profile && `/user/${profile._id}`}>
                     <a className={`${direction}__posts__container__post__userInfo`}>
                         <div className={`${direction}__posts__container__post__userInfo__img img__rounded`}>
                             {profile && profile?.profilePhoto ? <Image src={profile?.profilePhoto} width={150} height={150} alt="you" /> : <Image src={post?.user?.profilePhoto} alt="you" width={150} height={150} objectFit='cover' />}
