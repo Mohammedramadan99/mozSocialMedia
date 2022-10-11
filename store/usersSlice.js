@@ -221,7 +221,7 @@ export const fetchUsersAction = createAsyncThunk(
   "user/list",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = process.browser && getState()?.users;
+    const user = getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
@@ -229,7 +229,7 @@ export const fetchUsersAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`/api/auth/users`, config);
+      const { data } = await axios.get(`api/auth/users`, config);
       return data;
     } catch (error) {
       if (!error?.response) throw error;

@@ -1,7 +1,7 @@
 import nc from 'next-connect';
 import bcrypt from 'bcryptjs';
 import User from '../../../models/User';
-import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
+import dbConnectfrom '../../../utils/db/dbConnect';
 import { signToken } from '../../../utils/auth';
 import generateToken from '../../../utils/token/generateToken';
 import mongoose from 'mongoose';

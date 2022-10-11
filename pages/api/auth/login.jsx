@@ -13,8 +13,6 @@ handler.post(async (req, res) =>
     //check if user exists
     const userFound = await User.findOne({ email });
     //check if blocked
-    if (userFound?.isBlocked)
-        throw new Error("Access Denied You have been blocked");
     if (userFound)
     {
         //Check if password is match

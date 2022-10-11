@@ -5,7 +5,7 @@ import Comment from '../../../models/Comment';
 import Filter from "bad-words"
 import fs from "fs"
 import cloudinary from 'cloudinary'
-import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
+import dbConnect from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
 import cloudinaryUploadImg from '../../../utils/cloudinary'
 import mongoose from 'mongoose';
@@ -31,7 +31,6 @@ handler.get(async (req, res) =>
 
     res.json(posts);
     await mongoose.disconnect();
-
 })
 //----------------------------------------------------------------
 //CREATE POST
@@ -85,11 +84,11 @@ handler.use(isAuth).post(async (req, res) =>
 
         //Remove uploaded img
         res.json(post);
+        await mongoose.disconnect;
     } catch (error)
     {
         res.json(error.message);
     }
-    await mongoose.disconnect;
 
 })
 
