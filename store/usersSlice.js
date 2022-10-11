@@ -61,7 +61,7 @@ export const userProfileAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.get(
-        `/api/users/profile/${id}`,
+        `api/users/profile/${id}`,
         config
       );
       return data;
