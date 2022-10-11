@@ -1,11 +1,13 @@
 import User from '../../../models/User';
 import nc from 'next-connect';
 import { isAuth } from '../../../utils/auth';
+import dbConnect from '../../../utils/db/dbConnect';
 import Post from '../../../models/Post';
 const handler = nc();
 
 handler.use(isAuth).put(async (req, res) =>
 {
+    await dbConnect()
     //1.Find the post to be disLiked
     const { postId } = req?.body;
     const post = await Post.findById(postId);
