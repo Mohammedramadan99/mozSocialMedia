@@ -21,10 +21,7 @@ function MainPage({ posts })
             router.push('/login')
         }
     }, [])
-    if (!router.isFallback && !posts)
-    {
-        return "404";
-    }
+
     return (
         <div className='mainPage'>
             <div className="mainPage-container">

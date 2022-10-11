@@ -9,16 +9,17 @@ import Alert from '../Alert';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import Spinner from '../Spinner';
 const Comment = dynamic(() => import('./Comment'))
 
 function Post({ direction, post, profile })
 {
     const dispatch = useDispatch()
     const { userAuth } = useSelector(state => state.users)
-    const { postLists } = useSelector(state => state.posts)
+    const { postLists, loading : postLoading } = useSelector(state => state.posts)
     const [commentContent, setCommentContent] = useState("")
     const comment = useSelector(state => state?.comments);
-    const { loading, appErr, serverErr, commentCreated } = comment;
+    const { loading : commentLoading, appErr, serverErr, commentCreated } = comment;
     const [showComments, setShowComments] = useState(false)
     const [showLiked, setShowLiked] = useState(false)
     const [showDisliked, setShowDisliked] = useState(false)
@@ -67,7 +68,8 @@ function Post({ direction, post, profile })
     }, [post?.likes, postLists, showLiked, showDisliked])
 
     return (
-        <div className={`${direction}__posts__container__container`}>
+        <div className={`${direction}__posts__container__container`} style={{position:'relative'}}>
+            {postLoading && <Spinner/>}
             <div className={`${direction}__posts__container__post`}>
                 <Link href={post ? `/user/${post?.user}` : profile && `/user/${profile._id}`}>
                     <a className={`${direction}__posts__container__post__userInfo`}>
