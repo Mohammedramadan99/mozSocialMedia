@@ -4,7 +4,7 @@ import { isAuth } from '../../../utils/auth';
 import Post from '../../../models/Post';
 const handler = nc();
 
-handler.use(isAuth).put(async (req, res) =>
+handler.put(async (req, res) =>
 {
     //1.Find the post to be liked
     const { postId } = req?.body;
