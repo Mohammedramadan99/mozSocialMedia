@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import absoluteUrl from "next-absolute-url";
 
 export const registerUserAction = createAsyncThunk(
   "users/register",
@@ -220,7 +221,7 @@ export const fetchUsersAction = createAsyncThunk(
   "user/list",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
+    const user = process.browser && getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
