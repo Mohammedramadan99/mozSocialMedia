@@ -89,9 +89,9 @@ export const deletePostAction = createAsyncThunk(
 //fetch all posts
 export const fetchPostsAction = createAsyncThunk(
   "post/list",
-  async (category, { rejectWithValue, getState, dispatch }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/posts?category=${category}`);
+      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/posts`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
