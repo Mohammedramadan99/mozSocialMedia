@@ -24,7 +24,7 @@ export const createpostAction = createAsyncThunk(
       //http call
       const postData = { ...post };
       // console.log("from redx " + formData);
-      const { data } = await axios.post(`https://mozzsocialmedia.vercel.app/api/posts`, postData, config);
+      const { data } = await axios.post(`api/posts`, postData, config);
       //dispatch action
       dispatch(resetPost());
       return data;
@@ -50,7 +50,7 @@ export const updatePostAction = createAsyncThunk(
     };
     try {
       //http call
-      const { data } = await axios.put(`https://mozzsocialmedia.vercel.app/api/posts/${post?.id}`, post, config);
+      const { data } = await axios.put(`api/posts/${post?.id}`, post, config);
       //dispatch
       dispatch(resetPostEdit());
       return data;
@@ -75,7 +75,7 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       //http call
-      const { data } = await axios.delete(`https://mozzsocialmedia.vercel.app/api/posts/${postId}`, config);
+      const { data } = await axios.delete(`api/posts/${postId}`, config);
       //dispatch
       dispatch(resetPostDelete());
       return data;
@@ -91,7 +91,7 @@ export const fetchPostsAction = createAsyncThunk(
   "post/list",
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/posts`);
+      const { data } = await axios.get(`api/posts`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -104,7 +104,7 @@ export const fetchPostDetailsAction = createAsyncThunk(
   "post/detail",
   async (id, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`https://mozzsocialmedia.vercel.app/api/posts/${id}`);
+      const { data } = await axios.get(`api/posts/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -127,7 +127,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `https://mozzsocialmedia.vercel.app/api/posts/likes`,
+        `api/posts/likes`,
         { postId },
         config
       );
@@ -154,7 +154,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `https://mozzsocialmedia.vercel.app/api/posts/dislikes`,
+        `api/posts/dislikes`,
         { postId },
         config
       );
