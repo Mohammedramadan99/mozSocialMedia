@@ -4,7 +4,7 @@ import User from "../models/User";
 
 const signToken = (user) => {
   console.log("ss");
-  console.log(process.env.JWT_SECRET);
+  console.log(process.env.JWT_KEY);
   return jwt.sign(
     {
       _id: user._id,
@@ -13,7 +13,7 @@ const signToken = (user) => {
       isAdmin: user.isAdmin,
     },
 
-    process.env.JWT_SECRET,
+    process.env.JWT_KEY,
     {
       expiresIn: "30d",
     }
@@ -25,7 +25,7 @@ const isAuth = expressAsyncHandler(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
     try {
       if (token) {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
         //find the user by id
         const user = await User.findById(decoded?.id).select("-password");
         //attach the user to the request object
