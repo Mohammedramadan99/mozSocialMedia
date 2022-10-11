@@ -8,6 +8,7 @@ import cloudinary from 'cloudinary'
 import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
 import cloudinaryUploadImg from '../../../utils/cloudinary'
+import mongoose from 'mongoose';
 
 export const config = {
     api: {
