@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import UserDetails from '../../components/UserDetails/UserDetails'
+import { wrapper } from "../../store/store"
 import { reset, userProfileAction } from '../../store/usersSlice'
 
 function userDetails()
@@ -28,3 +29,10 @@ function userDetails()
 }
 
 export default userDetails
+
+export const getServerSideProps = wrapper.getServerSideProps( store =>  ({ req, res,params}) =>
+{
+
+  const data = { req, id:params.id }
+  store.dispatch(userProfileAction(data))
+});

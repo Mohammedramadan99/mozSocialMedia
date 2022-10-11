@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import absoluteUrl from "next-absolute-url";
+
 export const registerUserAction = createAsyncThunk(
   "users/register",
   async (user, { rejectWithValue, dispatch }) => {
@@ -49,7 +51,6 @@ export const userProfileAction = createAsyncThunk(
   "user/profile",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    console.log(id)
     const user = getState().users;
     const { userAuth } = user;
     const config = {
@@ -59,7 +60,10 @@ export const userProfileAction = createAsyncThunk(
     };
     //http call
     try {
-      const { data } = await axios.get(`/api/users/profile/${id}`, config);
+      const { data } = await axios.get(
+        `/api/users/profile/${id}`,
+        config
+      );
       return data;
     } catch (error) {
       if (!error?.response) {

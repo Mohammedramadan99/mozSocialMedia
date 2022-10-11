@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import { useSelector } from 'react-redux'
 import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePhototAction, uploadCoverPhototAction, reset, userProfileAction } from '../../store/usersSlice'
 import { useRouter } from 'next/router'
-
+import { wrapper } from '../../store/store'
 function UserDetails()
 {
     const dispatch = useDispatch()
@@ -69,10 +69,10 @@ function UserDetails()
         const theImage = { images }
         dispatch(uploadCoverPhototAction(theImage))
     }
-    useEffect(() =>
-    {
-        dispatch(userProfileAction(id))
-    }, [dispatch, id, followed, unFollowed])
+    // useEffect(() =>
+    // {
+    //     dispatch(userProfileAction(id))
+    // }, [dispatch, followed, unFollowed])
 
     return loading ? <Spinner /> : (
         <div className='user'>

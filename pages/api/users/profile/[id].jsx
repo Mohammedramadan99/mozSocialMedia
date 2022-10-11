@@ -20,7 +20,7 @@ handler.get(async (req, res) =>
     //check if user id is valid
     try
     {
-        const user = await User.findById(id)
+        const user = await User.findById(id).populate('posts')
         res.json(user);
     } catch (error)
     {

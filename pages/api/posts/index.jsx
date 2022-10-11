@@ -29,7 +29,7 @@ handler.get(async (req, res) =>
     const posts = await Post.find({}).populate({ path: "comments", model: Comment }).populate("user")
 
     res.json(posts);
-    await disconnect();
+    await mongoose.disconnect();
 
 })
 //----------------------------------------------------------------
@@ -88,7 +88,7 @@ handler.use(isAuth).post(async (req, res) =>
     {
         res.json(error.message);
     }
-    await disconnect();
+    await mongoose.disconnect;
 
 })
 
