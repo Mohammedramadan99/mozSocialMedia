@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import absoluteUrl from "next-absolute-url";
 
 export const registerUserAction = createAsyncThunk(
   "users/register",
