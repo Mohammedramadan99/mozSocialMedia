@@ -40,9 +40,8 @@ function Posts({ direction, user })
 
     useEffect(() =>
     {
-     !id && dispatch(fetchPostsAction(""));
+        !id && dispatch(fetchPostsAction(""));
     }, [isCreated, postCreated, dispatch, likes, dislikes, commentCreated]);
-    // post 
 
 
 

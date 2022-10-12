@@ -18,7 +18,7 @@ function Sidebar()
         unFollowed,
         userAuth, appErr } = users
     const [loggedIn, setLoggedIn] = useState(false)
-    const usersFiltered = usersList?.filter(user => user?._id !== userAuth?._id)
+    const usersFiltered = usersList !== {} && usersList?.filter(user => user?._id !== userAuth?._id)
     const followUserHandler = (id) =>
     {
         // dispatch(followUserAction(id))
@@ -26,7 +26,7 @@ function Sidebar()
     const followStatus = (user) =>
     {
         const loggedInUser = usersList?.find(u => u?._id === userAuth?._id)
-        const otherUsers = usersList?.filter(u => u?._id !== userAuth?._id)
+        const otherUsers = usersList !== {} && usersList?.filter(u => u?._id !== userAuth?._id)
         const status = loggedInUser?.following?.find(uId => uId === user?._id)
         console.log(status)
 

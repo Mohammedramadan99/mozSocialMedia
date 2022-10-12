@@ -1,7 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
-
+import dbConnect from '../utils/db/dbConnect'
 const signToken = (user) => {
   console.log("ss");
   console.log(process.env.JWT_SECRET);
@@ -19,7 +19,9 @@ const signToken = (user) => {
     }
   );
 };
-const isAuth = expressAsyncHandler(async (req, res, next) => {
+const isAuth = expressAsyncHandler(async (req, res, next) =>
+{
+  await dbConnect()
   let token;
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
@@ -30,11 +32,10 @@ const isAuth = expressAsyncHandler(async (req, res, next) => {
         const user = await User.findById(decoded?.id).select("-password");
         //attach the user to the request object
         req.user = user;
-        console.log(req.user);
         next();
       }
     } catch (error) {
-      throw new Error("Not authorized token expired, login again");
+      throw new Error(error.message);
     }
   } else {
     throw new Error("There is no token attached to the header");

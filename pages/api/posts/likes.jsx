@@ -5,7 +5,7 @@ import dbConnect from '../../../utils/db/dbConnect';
 import Post from '../../../models/Post';
 const handler = nc();
 
-handler.put(async (req, res) =>
+handler.put(isAuth,async (req, res) =>
 {
     await dbConnect()
     //1.Find the post to be liked

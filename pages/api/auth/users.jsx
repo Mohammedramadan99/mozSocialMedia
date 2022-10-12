@@ -14,7 +14,7 @@ handler.get(async (req, res) =>
     await dbConnect();
     try
     {
-        const users = await User.find({}).populate("posts");
+        const users = await User.find().populate("posts");
         res.json(users);
     } catch (error)
     {

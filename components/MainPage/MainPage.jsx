@@ -2,10 +2,13 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
+import { toggleAddLikesToPost, toggleAddDisLikesToPost, fetchPostsAction } from '../../store/postsSlice'
+// import { wrapper } from '../../store/store'
 
 const Posts = dynamic(() => import('./Posts'))
 
 const Sidebar = dynamic(() => import('./Sidebar'))
+
 
 function MainPage({ posts })
 {
@@ -31,5 +34,9 @@ function MainPage({ posts })
         </div>
     )
 }
-
 export default MainPage
+
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res }) =>
+// {
+//     await store.dispatch(fetchPostsAction(''));
+// });

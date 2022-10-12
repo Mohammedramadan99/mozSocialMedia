@@ -61,7 +61,7 @@ export const userProfileAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.get(
-        `api/users/profile/${id}`,
+        `/api/users/profile/${id}`,
         config
       );
       return data;
@@ -207,7 +207,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       console.log(id);
-      const { data } = await axios.get(`api/users/${id}`);
+      const { data } = await axios.get(`/api/users/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;

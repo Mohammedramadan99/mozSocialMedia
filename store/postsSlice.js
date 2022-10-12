@@ -91,7 +91,7 @@ export const fetchPostsAction = createAsyncThunk(
   "post/list",
   async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`api/posts`);
+      const { data } = await axios.get(`/api/posts`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -128,7 +128,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
     console.log(config);
     try {
       const { data } = await axios.put(
-        `api/posts/likes`,
+        `/api/posts/likes`,
         { postId },
         config
       );
@@ -154,7 +154,7 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `api/posts/dislikes`,
+        `/api/posts/dislikes`,
         { postId },
         config
       );
