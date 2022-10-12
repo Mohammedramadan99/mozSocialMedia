@@ -1,9 +1,9 @@
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import UserDetails from '../../components/UserDetails/UserDetails'
-import { wrapper } from "../../store/store"
-import { reset, userProfileAction } from '../../store/usersSlice'
+import dynamic from 'next/dynamic'
+
+const UserDetails = dynamic(() => import('../../components/UserDetails/UserDetails'))
 
 function userDetails()
 {

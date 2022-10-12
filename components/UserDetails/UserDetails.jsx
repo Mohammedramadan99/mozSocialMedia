@@ -11,7 +11,7 @@ import { wrapper } from '../../store/store'
 function UserDetails({id})
 {
     const dispatch = useDispatch()
-    const [images, setImages] = useState("");
+    const [image, setImage] = useState("");
     const [imagePreview, setImagePreview] = useState("")
     //User data from store
     const users = useSelector(state => state.users);
@@ -37,35 +37,26 @@ function UserDetails({id})
 
     const createPostImagesChange = (e) =>
     {
-        const files = Array.from(e.target.files);
-        setImages([]);
-        setImagePreview([]);
+        const file = e.target.files[0];
 
-        files.forEach((file) =>
+        const Reader = new FileReader();
+        Reader.readAsDataURL(file);
+
+        Reader.onload = () =>
         {
-            const reader = new FileReader();
-
-            reader.onload = () =>
+            if (Reader.readyState === 2)
             {
-                if (reader.readyState === 2)
-                {
-                    setImagePreview((old) => [...old, reader.result]);
-                    setImages((old) => [...old, reader.result]);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
+                setImage(Reader.result);
+            }
+        };
     };
     const uploadProfilePhoto = () =>
     {
-        const theImage = { images }
-        console.log(theImage)
-        dispatch(uploadProfilePhototAction(theImage))
+        dispatch(uploadProfilePhototAction(image))
     }
     const uploladcoverPhoto = () =>
     {
-        const theImage = { images }
-        dispatch(uploadCoverPhototAction(theImage))
+        dispatch(uploadCoverPhototAction(image))
     }
     useEffect(() =>
     {
