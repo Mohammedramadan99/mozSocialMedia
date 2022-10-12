@@ -7,6 +7,15 @@ const resetPost = createAction("category/reset");
 const resetPostEdit = createAction("post/reset");
 const resetPostDelete = createAction("post/delete");
 
+const hostname =
+  typeof window !== "undefined" && window.location.hostname
+    ? window.location.hostname
+    : "";
+const origin =
+  typeof window !== "undefined" && window.location.origin
+    ? window.location.origin
+    : "";
+
 //Create
 export const createpostAction = createAsyncThunk(
   "post/created",
@@ -24,7 +33,7 @@ export const createpostAction = createAsyncThunk(
       //http call
       const postData = { ...post };
       // console.log("from redx " + formData);
-      const { data } = await axios.post(`api/posts`, postData, config);
+      const { data } = await axios.post(`${origin}/api/posts`, postData, config);
       //dispatch action
       dispatch(resetPost());
       return data;
@@ -50,7 +59,7 @@ export const updatePostAction = createAsyncThunk(
     };
     try {
       //http call
-      const { data } = await axios.put(`api/posts/${post?.id}`, post, config);
+      const { data } = await axios.put(`${origin}/api/posts/${post?.id}`, post, config);
       //dispatch
       dispatch(resetPostEdit());
       return data;
@@ -75,7 +84,7 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       //http call
-      const { data } = await axios.delete(`api/posts/${postId}`, config);
+      const { data } = await axios.delete(`${origin}/api/posts/${postId}`, config);
       //dispatch
       dispatch(resetPostDelete());
       return data;
@@ -104,7 +113,7 @@ export const fetchPostDetailsAction = createAsyncThunk(
   "post/detail",
   async (id, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`api/posts/${id}`);
+      const { data } = await axios.get(`${origin}/api/posts/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;

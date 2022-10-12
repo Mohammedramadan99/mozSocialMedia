@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePhototAction, uploadCoverPhototAction, reset, userProfileAction } from '../../store/usersSlice'
 import { useRouter } from 'next/router'
 import { wrapper } from '../../store/store'
+import Image from 'next/image'
 function UserDetails({id})
 {
     const dispatch = useDispatch()
@@ -69,12 +70,15 @@ function UserDetails({id})
                 <div className="user__top__imgs">
                     <div className="user__top__imgs__cover">
                         {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditCover(true)} >change</div>}
-
-                        <img src={profile?.coverPhoto} alt="" />
+                        <div className="img-parent">
+                            {profile?.coverPhoto && <Image src={profile?.coverPhoto} alt="" layout='fill' />}  
+                            
+                        </div>
                     </div>
                     <div className="user__top__imgs__personalImg">
                         {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditPhoto(true)}>change</div>}
-                        <img src={profile?.profilePhoto} alt="img" />
+                        {profile?.profilePhoto && <Image src={profile?.profilePhoto} alt="img" width={100} height={100} />}
+                        
                     </div>
                 </div>
                 <div className="user__top__info">

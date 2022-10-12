@@ -24,7 +24,7 @@ const handler = nc();
 handler.get(async (req, res) =>
 {
     await dbConnect();
-    const posts = await Post.find()
+    const posts = await Post.find().populate('comments').populate('user')
     res.json(posts)
     await mongoose.disconnect()
 ;
