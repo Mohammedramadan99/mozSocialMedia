@@ -9,7 +9,6 @@ import Alert from '../Alert';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import Spinner from '../Spinner';
 const Comment = dynamic(() => import('./Comment'))
 const Spinner = dynamic(() => import('../Spinner'))
 
