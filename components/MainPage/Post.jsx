@@ -11,6 +11,8 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import Spinner from '../Spinner';
 const Comment = dynamic(() => import('./Comment'))
+const Spinner = dynamic(() => import('../Spinner'))
+
 
 function Post({ direction, post, profile })
 {
@@ -118,7 +120,12 @@ function Post({ direction, post, profile })
                     </div>
                     <form className={`${direction}__posts__container__commentsGroupe__writeComment__input`} onSubmit={(e) => addCommentHandler(post, e)}>
                         <input type="text" value={commentContent} placeholder='write a comment' onChange={e => setCommentContent(e.target.value)} />
-                        <input type="submit" />
+                        {commentLoading ? (
+                            <div style={{ position: "relative" }}>
+                                <Spinner />
+                            </div>
+                        ) : <input type="submit" />}
+                        
                     </form>
                 </div>
                 <div className={`${direction}__posts__container__commentsGroupe__comments`}>
