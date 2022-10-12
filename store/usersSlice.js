@@ -1,6 +1,15 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
-const base = 'https://mozzz-hw73ycm14-mohammedramadan99.vercel.app'
+
+const hostname =
+  typeof window !== "undefined" && window.location.hostname
+    ? window.location.hostname
+    : "";
+const origin =
+  typeof window !== "undefined" && window.location.origin
+    ? window.location.origin
+    : "";
+
 export const registerUserAction = createAsyncThunk(
   "users/register",
   async (user, { rejectWithValue, dispatch }) => {
@@ -12,7 +21,7 @@ export const registerUserAction = createAsyncThunk(
     //http call
     console.log(user);
     try {
-      const { data } = await axios.post(`api/auth/register`, user, config);
+      const { data } = await axios.post(`${origin}/api/auth/register`, user, config);
       return data;
     } catch (error) {
       if (!error.response) {
@@ -29,7 +38,7 @@ export const loginUserAction = createAsyncThunk(
   async (userData, { rejectWithValue, dispatch }) => {
     try {
       //make http call
-      const { data } = await axios.post(`api/auth/login`, userData);
+      const { data } = await axios.post(`${origin}/api/auth/login`, userData);
       console.log(data);
 
       //save user into local storage
@@ -57,10 +66,11 @@ export const userProfileAction = createAsyncThunk(
         Authorization: `Bearer ${userAuth?.token}`,
       },
     };
+    
     //http call
     try {
       const { data } = await axios.get(
-        `api/users/profile/${id}`,
+        `${origin}/api/users/profile/${id}`,
         config
       );
       return data;
@@ -88,7 +98,7 @@ export const followUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `api/users/follow`,
+        `${origin}/api/users/follow`,
         { followId: userToFollowId },
         config
       );
@@ -117,7 +127,7 @@ export const unfollowUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `api/users/unfollow`,
+        `${origin}/api/users/unfollow`,
         { unFollowId },
         config
       );
@@ -146,7 +156,7 @@ export const updateUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `api/users`,
+        `${origin}/api/users`,
         {
           lastName: userData?.lastName,
           firstName: userData?.firstName,
@@ -182,7 +192,7 @@ export const updatePasswordAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `api/users/password`,
+        `${origin}/api/users/password`,
         {
           password,
         },
@@ -206,7 +216,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       console.log(id);
-      const { data } = await axios.get(`api/users/${id}`);
+      const { data } = await axios.get(`${origin}/api/users/${id}`);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -228,7 +238,7 @@ export const fetchUsersAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`api/auth/users`, config);
+      const { data } = await axios.get(`${origin}/api/auth/users`, config);
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -251,7 +261,7 @@ export const blockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `api/users/block-user/${id}`,
+        `${origin}/api/users/block-user/${id}`,
         {},
         config
       );
@@ -277,7 +287,7 @@ export const unBlockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `api/users/unblock-user/${id}`,
+        `${origin}/api/users/unblock-user/${id}`,
         {},
         config
       );
@@ -322,7 +332,7 @@ export const uploadCoverPhototAction = createAsyncThunk(
       console.log(coverImg);
       const img = { image: coverImg.images[0] };
       const { data } = await axios.put(
-        `api/users/profile/uploadcoverphoto`,
+        `${origin}/api/users/profile/uploadcoverphoto`,
         coverImg,
         config
       );
@@ -353,7 +363,7 @@ export const uploadProfilePhototAction = createAsyncThunk(
       // formData.append("image", userImg?.image);
       console.log(userImg);
       const { data } = await axios.put(
-        `api/users/profile/profilephoto`,
+        `${origin}/api/users/profile/profilephoto`,
         userImg,
         config
       );
@@ -377,7 +387,7 @@ export const passwordResetTokenAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.post(
-        `api/users/forget-password-token`,
+        `${origin}/api/users/forget-password-token`,
         { email },
         config
       );
@@ -403,7 +413,7 @@ export const passwordResetAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `api/users/reset-password`,
+        `${origin}/api/users/reset-password`,
         { password: user?.password, token: user?.token },
         config
       );
