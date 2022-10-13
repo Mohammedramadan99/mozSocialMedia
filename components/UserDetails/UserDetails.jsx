@@ -64,16 +64,16 @@ function UserDetails({id})
     useEffect(() =>
     {
         dispatch(userProfileAction(id))
-    }, [dispatch,id, followed, unFollowed])
+    }, [dispatch, id, followed, unFollowed])
 
-    return profileLoading ? <Spinner /> : (
+    return loading ? <Spinner /> : (
         <div className='user'>
             <div className="user__top">
                 <div className="user__top__imgs">
                     <div className="user__top__imgs__cover">
                         {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditCover(true)} >change</div>}
                         <div className="img--parent">
-                            {profile?.coverPhoto && <Image src={profile?.coverPhoto} alt="" layout='fill' />}  
+                            {profile?.coverPhoto && <Image src={profile?.coverPhoto} alt="cover" layout='fill' />}  
                         </div>
                     </div>
                     <div className="user__top__imgs__personalImg">

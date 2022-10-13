@@ -12,6 +12,7 @@ function userDetails()
   const { id } = router.query
   const users = useSelector(state => state.users);
   const {
+    profileLoading,
     coverPhoto,
     profilePhoto
   } = users;
