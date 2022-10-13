@@ -330,10 +330,9 @@ export const uploadCoverPhototAction = createAsyncThunk(
       // const formData = new FormData();
       // formData.append("image", userImg?.image);
       console.log(coverImg);
-      const image = {img:coverImg}
       const { data } = await axios.put(
         `${origin}/api/users/profile/uploadcoverphoto`,
-        image,
+        coverImg,
         config
       );
       console.log(data)

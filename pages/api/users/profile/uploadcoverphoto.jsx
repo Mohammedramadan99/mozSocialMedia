@@ -29,7 +29,8 @@ handler.use(isAuth).put(async (req, res) =>
     const { _id } = req.user;
     try
     {
-        const result = await cloudinary.v2.uploader.upload(req?.body?.img, {
+        console.log(req.body.image)
+        const result = await cloudinary.v2.uploader.upload(req?.body, {
             folder: "blog",
         });
         const url = result?.secure_url

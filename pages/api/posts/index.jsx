@@ -7,13 +7,13 @@ import cloudinary from 'cloudinary'
 import dbConnect from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
 
-// export const config = {
-//     api: {
-//         bodyParser: {
-//             sizeLimit: '25mb'
-//         }
-//     }
-// }
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '25mb'
+        }
+    }
+}
 
 const handler = nc();
 
@@ -90,6 +90,6 @@ handler.use(isAuth).post(async (req, res) =>
 
 export default handler;
 
-export const config = {
-    runtime: 'experimental-edge',
-}
+// export const config = {
+//     runtime: 'experimental-edge',
+// }
