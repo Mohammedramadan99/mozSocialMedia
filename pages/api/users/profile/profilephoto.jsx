@@ -30,12 +30,9 @@ handler.use(isAuth).put(photoUpload.single("image"), async (req, res) =>
     const { _id } = req.user;
     try
     {
-        let image = req.body.images[0]
-        const result = await cloudinary.v2.uploader.upload(image, {
+        const result = await cloudinary.v2.uploader.upload(req.body.image, {
             folder: "blog",
         });
-
-
         const url = result.secure_url
 
         const foundUser = await User.findByIdAndUpdate(
