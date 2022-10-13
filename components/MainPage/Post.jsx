@@ -70,7 +70,6 @@ function Post({ direction, post, profile })
 
     return (
         <div className={`${direction}__posts__container__container`} style={{position:'relative'}}>
-            {postLoading && <Spinner/>}
             <div className={`${direction}__posts__container__post`}>
                 <Link href={post ? `/user/${post?.user?._id}` : profile && `/user/${profile._id}`}>
                     <a className={`${direction}__posts__container__post__userInfo`}>

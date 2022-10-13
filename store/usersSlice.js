@@ -238,7 +238,7 @@ export const fetchUsersAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${origin}/api/auth/users`, config);
+      const { data } = await axios.get(`${origin}/api/users`, config);
       return data;
     } catch (error) {
       if (!error?.response) throw error;

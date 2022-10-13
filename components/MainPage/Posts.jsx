@@ -15,8 +15,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { userProfileAction } from '../../store/usersSlice'
 import dynamic from 'next/dynamic'
-const Post = dynamic(() => import('./Post'))
 import { wrapper } from "../../store/store";
+const Post = dynamic(() => import('./Post'))
+const Spinner = dynamic(() => import('../Spinner'))
+
 function Posts({ direction, user })
 {
     const dispatch = useDispatch()
@@ -27,7 +29,7 @@ function Posts({ direction, user })
     const [postDisLiked, setPostDisLiked] = useState(false)
     const [commentContent, setCommentContent] = useState("")
     const comment = useSelector(state => state?.comments);
-    const { postLists, isCreated, postCreated } = useSelector(state => state.posts)
+    const { postLists, isCreated, postCreated, loading:postloading } = useSelector(state => state.posts)
     const { profile } = useSelector(state => state.users)
     const { likes, dislikes } = useSelector(state => state.posts)
     const { loading, appErr, serverErr, commentCreated } = comment;
@@ -56,7 +58,12 @@ function Posts({ direction, user })
     return router.isFallback ? (<div>Loading...</div>)
         : (
         <div className={direction}>
-            <WritePost dir={direction} userDetails={user} />
+                <WritePost dir={direction} userDetails={user} />
+                {postloading && (
+                    <div style={{position:"relative"}}>
+                        <Spinner />
+                    </div>
+                )}
             {direction === "mainPage__middle" ? (
                 postLists?.map(p => <Post key={p._id} post={p} direction={direction} />)
 
