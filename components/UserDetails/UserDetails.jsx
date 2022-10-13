@@ -50,6 +50,7 @@ function UserDetails()
             if (Reader.readyState === 2)
             {
                 setImage(Reader.result);
+                setImagePreview(Reader.result);
             }
         };
     };
