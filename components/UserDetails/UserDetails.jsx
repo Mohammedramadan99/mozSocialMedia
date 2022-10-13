@@ -70,15 +70,13 @@ function UserDetails({id})
                 <div className="user__top__imgs">
                     <div className="user__top__imgs__cover">
                         {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditCover(true)} >change</div>}
-                        <div className="img-parent">
+                        <div className="img--parent">
                             {profile?.coverPhoto && <Image src={profile?.coverPhoto} alt="" layout='fill' />}  
-                            
                         </div>
                     </div>
                     <div className="user__top__imgs__personalImg">
                         {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditPhoto(true)}>change</div>}
-                        {profile?.profilePhoto && <Image src={profile?.profilePhoto} alt="img" width={100} height={100} />}
-                        
+                        {profile?.profilePhoto && <Image src={profile?.profilePhoto} alt="img" width={150} height={150} objectFit="cover" />}
                     </div>
                 </div>
                 <div className="user__top__info">

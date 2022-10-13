@@ -10,7 +10,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const Comment = dynamic(() => import('./Comment'))
-const Spinner = dynamic(() => import('../Spinner'))
 
 
 function Post({ direction, post, profile })
