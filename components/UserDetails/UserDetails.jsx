@@ -62,6 +62,7 @@ function UserDetails()
     const uploladcoverPhoto = (e) =>
     {
         // e.preventDefault()
+        console.log(image)
         dispatch(uploadCoverPhototAction(image))
     }
     useEffect(() =>
