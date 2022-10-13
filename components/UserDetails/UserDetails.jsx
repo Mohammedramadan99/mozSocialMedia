@@ -51,12 +51,14 @@ function UserDetails({id})
             }
         };
     };
-    const uploadProfilePhoto = () =>
+    const uploadProfilePhoto = (e) =>
     {
+        e.preventDefault()
         dispatch(uploadProfilePhototAction(image))
     }
-    const uploladcoverPhoto = () =>
+    const uploladcoverPhoto = (e) =>
     {
+        e.preventDefault()
         dispatch(uploadCoverPhototAction(image))
     }
     useEffect(() =>
@@ -125,7 +127,7 @@ function UserDetails({id})
                             </div>
                         </div>
 
-                        <div className="user__editPhoto__box__btn common_btn" onClick={() => uploladcoverPhoto()}>
+                        <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploladcoverPhoto(e)}>
                             update photos
                         </div>
                     </div>
@@ -153,7 +155,7 @@ function UserDetails({id})
                             )}
                         </div>
 
-                        <div className="user__editPhoto__box__btn common_btn" onClick={() => uploadProfilePhoto()}>
+                        <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploadProfilePhoto(e)}>
                             update photos
                         </div>
                     </div>
