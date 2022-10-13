@@ -768,6 +768,7 @@ ul li {
   overflow: hidden;
   transition: 0.3s ease;
   opacity: 0;
+  z-index: 2000;
 }
 .user__top__imgs__cover:hover .overlay {
   width: 100%;
@@ -816,6 +817,8 @@ ul li {
   overflow: hidden;
   transition: 0.3s ease;
   opacity: 0;
+  z-index: 2000;
+
 }
 .user__top__imgs__personalImg:hover .overlay {
   width: 100%;
@@ -986,6 +989,7 @@ ul li {
   align-items: center;
   gap: 0.625rem;
   flex-direction: row;
+  z-index: 2000;
 }
 .user__editPhoto__box {
   position: relative;
