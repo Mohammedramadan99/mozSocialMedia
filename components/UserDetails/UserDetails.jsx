@@ -66,7 +66,7 @@ function UserDetails({id})
         dispatch(userProfileAction(id))
     }, [dispatch,id, followed, unFollowed])
 
-    return loading ? <Spinner /> : (
+    return profileLoading ? <Spinner /> : (
         <div className='user'>
             <div className="user__top">
                 <div className="user__top__imgs">
