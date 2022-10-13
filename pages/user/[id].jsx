@@ -8,8 +8,7 @@ const UserDetails = dynamic(() => import('../../components/UserDetails/UserDetai
 function userDetails()
 {
   const dispatch = useDispatch()
-  const router = useRouter()
-  const { id } = router.query
+
   const users = useSelector(state => state.users);
   const {
     profileLoading,
@@ -25,7 +24,7 @@ function userDetails()
   //   }
   // }, [dispatch,coverPhoto, profilePhoto])
   return (
-    <UserDetails id={id} />
+    <UserDetails  />
   )
 }
 
