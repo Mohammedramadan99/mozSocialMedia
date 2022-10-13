@@ -9,8 +9,10 @@ import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePh
 import { useRouter } from 'next/router'
 import { wrapper } from '../../store/store'
 import Image from 'next/image'
-function UserDetails({id})
+function UserDetails()
 {
+    const router = useRouter()
+    const { id } = router.query
     const dispatch = useDispatch()
     const [image, setImage] = useState("");
     const [imagePreview, setImagePreview] = useState("")
@@ -53,12 +55,12 @@ function UserDetails({id})
     };
     const uploadProfilePhoto = (e) =>
     {
-        e.preventDefault()
+        // e.preventDefault()
         dispatch(uploadProfilePhototAction(image))
     }
     const uploladcoverPhoto = (e) =>
     {
-        e.preventDefault()
+        // e.preventDefault()
         dispatch(uploadCoverPhototAction(image))
     }
     useEffect(() =>
