@@ -3,7 +3,7 @@ import nc from 'next-connect';
 
 import fs from "fs"
 import cloudinary from 'cloudinary'
-import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
+import dbConnect from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
 export const config = {
@@ -29,7 +29,6 @@ handler.use(isAuth).put(async (req, res) =>
     const { _id } = req.user;
     try
     {
-        console.log(req.body.image)
         const result = await cloudinary.v2.uploader.upload(req?.body, {
             folder: "blog",
         });

@@ -15,6 +15,7 @@ function userDetails()
     coverPhoto,
     profilePhoto
   } = users;
+  
   // useEffect(() =>
   // {
   //   if (coverPhoto !== null || profilePhoto !== null)
