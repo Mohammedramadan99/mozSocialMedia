@@ -58,13 +58,15 @@ function UserDetails()
     const uploadProfilePhoto = (e) =>
     {
         // e.preventDefault()
-        dispatch(uploadProfilePhototAction(image))
+        const theImage =  {image}
+        dispatch(uploadProfilePhototAction(theImage))
     }
     const uploladcoverPhoto = (e) =>
     {
         // e.preventDefault()
+        const theImage = { image }
         console.log(image)
-        dispatch(uploadCoverPhototAction(image))
+        dispatch(uploadCoverPhototAction(theImage))
     }
     useEffect(() =>
     {
