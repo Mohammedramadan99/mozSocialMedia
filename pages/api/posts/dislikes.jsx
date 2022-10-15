@@ -3,6 +3,13 @@ import nc from 'next-connect';
 import { isAuth } from '../../../utils/auth';
 import dbConnect from '../../../utils/db/dbConnect';
 import Post from '../../../models/Post';
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}
 const handler = nc();
 
 handler.put(isAuth,async (req, res) =>
@@ -70,13 +77,5 @@ handler.put(isAuth,async (req, res) =>
         res.json(post);
     }
 })
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '4mb' // Set desired value here
-        }
-    }
-}
+
 export default handler;
-
-

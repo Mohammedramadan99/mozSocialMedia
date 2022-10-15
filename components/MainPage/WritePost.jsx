@@ -60,7 +60,7 @@ function WritePost({ dir, userDetails })
             // const allData = new FormData();
             // allData.append("description", formData?.description);
             // allData.append("images", images);
-            const all = { description: formData.description, image }
+            const all = { description: formData.description, img:image }
             dispatch(createpostAction(all))
 
         } else
@@ -94,10 +94,10 @@ function WritePost({ dir, userDetails })
             <>
                 <div className={`${dir}__writePost__user`}>
                     <div className={`${dir}__writePost__user__img img__rounded`}>
-                        {/* <Image width='100%' height="100%" src={userAuth?.profilePhoto} alt="you" /> */}
+                        {userAuth?.profilePhoto && <Image width={100} height={100} src={userAuth?.profilePhoto} alt="you" />}
                     </div>
                     <div className={`${dir}__writePost__user__name`}>
-                        {/* {dir === "userDetails" ? `${userDetails?.firstName} ${userDetails?.lastName}` : `${userAuth?.firstName} ${userAuth?.lastName}`} */}
+                        {dir === "userDetails" ? `${userDetails?.name}` : `${userAuth?.name}`}
                     </div>
                 </div>
                 <div className={`${dir}__writePost__top`}>

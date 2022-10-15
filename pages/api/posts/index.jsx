@@ -16,7 +16,11 @@ export const config = {
 }
 
 const handler = nc();
-
+cloudinary.config({
+    cloud_name: 'dtmjc8y9z',
+    api_key: '379966828288349',
+    api_secret: 'a41LSvU3XXAJuQOLxorhOVFPauw',
+});
 //----------------------------------------------------------------
 // GET POSTS
 //----------------------------------------------------------------
@@ -35,8 +39,7 @@ handler.get(async (req, res) =>
 handler.use(isAuth).post(async (req, res) =>
 {
     await dbConnect();
-    const { id } = req.user;
-    console.log("the id == " + req.user)
+    const { _id } = req.user;
     
     // Display message if user is blocked
     // Check for bad words
@@ -59,18 +62,19 @@ handler.use(isAuth).post(async (req, res) =>
 
     try
     {
-        const result = await cloudinary.v2.uploader.upload(req.body.image, {
+        console.log(req.user.id)
+        const img = req.body.img
+        const result = await cloudinary.v2.uploader.upload(img, {
             folder: "blog",
         });
-
         const post = await Post.create({
             ...req.body,
-            user: id,
+            user: _id,
             image: result.secure_url
         });
         //update the user post count
         await User.findByIdAndUpdate(
-            id,
+            _id,
             {
                 $inc: { postCount: 1 },
             },

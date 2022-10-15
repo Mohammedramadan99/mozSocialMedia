@@ -9,6 +9,7 @@ import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePh
 import { useRouter } from 'next/router'
 import { wrapper } from '../../store/store'
 import Image from 'next/image'
+
 function UserDetails()
 {
     const router = useRouter()
@@ -18,7 +19,7 @@ function UserDetails()
     const [imagePreview, setImagePreview] = useState("")
     //User data from store
     const users = useSelector(state => state.users);
-    const [editPhoto, setEditPhoto] = useState(false)
+    const [editPhoto, setEditPhoto] = useState(false) 
     const [editCover, setEditCover] = useState(false)
     const {
         profile,
@@ -70,6 +71,12 @@ function UserDetails()
         dispatch(userProfileAction(id))
     }, [dispatch, id, followed, unFollowed])
 
+    const closeHandler = () =>
+    {
+        setImagePreview('')
+        setEditCover(false)
+        setEditPhoto(false)
+    }
     return loading ? <Spinner /> : (
         <div className='user'>
             <div className="user__top">
@@ -112,7 +119,7 @@ function UserDetails()
             <div className={editCover ? "user__editPhoto active" : `user__editPhoto`}>
                 <div className="overlay">
                     <div className="user__editPhoto__box">
-                        <div className="user__editPhoto__box__closeIcon" onClick={() => setEditCover(false)}> <CloseIcon /> </div>
+                        <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
                         <div className="user__editPhoto__box__title">
                             edit your cover
                         </div>
@@ -140,7 +147,7 @@ function UserDetails()
             <div className={editPhoto ? "user__editPhoto active" : `user__editPhoto`}>
                 <div className="overlay">
                     <div className="user__editPhoto__box">
-                        <div className="user__editPhoto__box__closeIcon" onClick={() => setEditPhoto(false)}> <CloseIcon /> </div>
+                        <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
                         <div className="user__editPhoto__box__title">
                             edit profile photo
                         </div>

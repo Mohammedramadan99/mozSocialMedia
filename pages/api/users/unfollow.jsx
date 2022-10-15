@@ -1,10 +1,13 @@
 import User from '../../../models/User';
 import nc from 'next-connect';
 import { isAuth } from '../../../utils/auth';
+import dbConnect from '../../../utils/db/dbConnect'
 const handler = nc();
 
 handler.use(isAuth).put(async (req, res) =>
 {
+    await dbConnect();
+
     const { unFollowId } = req.body;
     const loginUserId = req.user.id;
     console.log(unFollowId)

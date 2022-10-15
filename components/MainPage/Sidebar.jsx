@@ -39,9 +39,9 @@ function Sidebar()
 
     useEffect(() =>
     {
-        const user = usersList?.find(U => U?._id === userAuth?._id)
+        const user = usersList?.find(u => u?._id === userAuth?._id)
         setUserLogged(user && user)
-    }, [usersList])
+    }, [])
 
     useEffect(() =>
     {
@@ -63,7 +63,7 @@ function Sidebar()
                         <div className="mainPage__left__sidebar__G1__Imgs__profileImg img__rounded">
                             <div className="img--parent">
                                 {userlogged?.profilePhoto && <Image src={userlogged?.profilePhoto} alt="photo" width={100} height={100} />}
-
+                                {console.log(userlogged)}
                             </div>
                         </div>
                     </div>
