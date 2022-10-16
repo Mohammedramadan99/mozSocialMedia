@@ -27,6 +27,7 @@ handler.use(isAuth).put(async (req, res) =>
 {
     await dbConnect();
     const { _id } = req.user;
+    console.log("back: " + _id)
     try
     {
         const result = await cloudinary.v2.uploader.upload(req?.body?.image, {

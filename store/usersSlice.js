@@ -318,17 +318,16 @@ export const uploadCoverPhototAction = createAsyncThunk(
   "user/cover-photo",
   async (coverImg, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = process.browser && getState()?.users;
+    const user = getState()?.users;
     const { userAuth } = user;
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
       },
     };
+    console.log(userAuth.id)
     try {
       //http call
-      // const formData = new FormData();
-      // formData.append("image", userImg?.image);
       console.log(coverImg);
       const { data } = await axios.put(
         `${origin}/api/users/profile/uploadcoverphoto`,

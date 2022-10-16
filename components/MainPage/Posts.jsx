@@ -71,7 +71,7 @@ function Posts({ direction, user })
                 !user?.posts || user?.posts?.length === 0 ? (
                     <p style={{ textAlign: "center", textTransform: "capitalize", marginTop: "40px" }}>there is not posts yet</p>
                 ) : (
-                    user?.posts?.map(p => <Post key={p._id} direction={direction} profile={profile} />)
+                                user?.posts?.map(p => <Post key={p._id} direction={direction} profile={profile} post={ p}  />)
                 )
             )}
         </div>

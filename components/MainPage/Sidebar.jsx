@@ -40,7 +40,7 @@ function Sidebar()
     useEffect(() =>
     {
         const user = usersList?.find(u => u?._id === userAuth?._id)
-        setUserLogged(user && user)
+        setUserLogged(user ? user : userAuth)
     }, [])
 
     useEffect(() =>
@@ -57,7 +57,6 @@ function Sidebar()
                         <div className="mainPage__left__sidebar__G1__Imgs__coverImg">
                             <div style={{ height: "200px" }}>
                                 {userlogged?.coverPhoto && <Image src={userlogged?.coverPhoto} alt="photo" layout='fill' />}
-
                             </div>
                         </div>
                         <div className="mainPage__left__sidebar__G1__Imgs__profileImg img__rounded">

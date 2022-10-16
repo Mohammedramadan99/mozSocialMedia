@@ -30,8 +30,8 @@ const isAuth = expressAsyncHandler(async (req, res, next) =>
         const decoded = jwt.verify(token, process.env.JWT_KEY);
         const {id} = decoded
         //find the user by id
-        const user = await User.findOne({id})
-        console.log(user);
+        const user = await User.findById(decoded?.id).select("-password");
+        console.log("is Auth: " + user._id);
         //attach the user to the request object
         req.user = user;
         next();
