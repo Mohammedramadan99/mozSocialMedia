@@ -27,7 +27,7 @@ function UserDetails()
         profileAppErr,
         profileServerErr,
         coverPhoto,
-        followed,
+        followed, 
         unFollowed,
         userAuth,
         loading,
