@@ -148,7 +148,7 @@ ul li {
   position: sticky;
   top: 0;
   z-index: 1000;
-}
+} 
 .mainNav .nav-container {
   display: grid;
   grid-template-columns: 3fr 5fr 2fr;

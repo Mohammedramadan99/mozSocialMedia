@@ -1,4 +1,4 @@
-import "../styles/style.scss";
+import "../styles/Style.scss";
 import "../styles/bootstrap.min.css";
 import Layout from "../components/Layout/Layout";
 import { wrapper } from "../store/store";
