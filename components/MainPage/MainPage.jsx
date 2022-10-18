@@ -35,7 +35,6 @@ function MainPage({ posts })
     )
 }
 export default MainPage
-
 // export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res }) =>
 // {
 //     await store.dispatch(fetchPostsAction(''));

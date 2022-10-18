@@ -114,7 +114,9 @@ function Post({ direction, post, profile })
             <div className={showComments ? `${direction}__posts__container__commentsGroupe active` : `${direction}__posts__container__commentsGroupe`}>
                 <div className={`${direction}__posts__container__commentsGroupe__writeComment`}>
                     <div className={`${direction}__posts__container__commentsGroupe__writeComment__userImg img__rounded`}>
-                        {/* <img width="100%" height="100%" src={me} alt="img" /> */}
+                        <div className="img--container">
+                            {userAuth?.profilePhoto && <Image src={userAuth?.profilePhoto} alt="img" layout='fill' /> }
+                        </div>
                     </div>
                     <form className={`${direction}__posts__container__commentsGroupe__writeComment__input`} onSubmit={(e) => addCommentHandler(post, e)}>
                         <input type="text" value={commentContent} placeholder='write a comment' onChange={e => setCommentContent(e.target.value)} />

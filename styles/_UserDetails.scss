@@ -1,0 +1,334 @@
+.user {
+    background-color: #f1f1f1;
+    position: relative;
+
+    &__top {
+        &__imgs {
+            position: relative;
+
+            &__cover {
+                position: relative;
+                width: 100%;
+                height: 500px;
+
+                .overlay {
+                    width: 0;
+                    height: 100%;
+                    background-color: rgba(#1a50e4, .3);
+                    font-weight: 700;
+                    color: #fff;
+                    @include flex();
+                    text-transform: capitalize;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    cursor: pointer;
+                    overflow: hidden;
+                    transition: $reg_transition;
+                    opacity: 0;
+  z-index: 2000;
+
+                }
+
+                &:hover {
+                    .overlay {
+                        width: 100%;
+                        height: 100%;
+                        opacity: 1;
+                    }
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+            }
+
+            &__personalImg {
+                position: absolute;
+                bottom: -75px;
+                left: 75px;
+                width: 150px;
+                height: 150px;
+                border-radius: 100%;
+                overflow: hidden;
+                border: 4px solid #f1f1f1;
+                z-index: 2001;
+                @media (max-width: 768px) {
+                    bottom: -50px;
+                    left: 50px;
+                    width: 100px;
+                    height: 100px;
+                }
+
+                .overlay {
+                    width: 0;
+                    height: 100%;
+                    background-color: rgba(#1a50e4, .3);
+                    font-weight: 700;
+                    color: #fff;
+                    @include flex();
+                    text-transform: capitalize;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    cursor: pointer;
+                    overflow: hidden;
+                    transition: $reg_transition;
+                    opacity: 0;
+                    z-index: 2000;
+                }
+
+                &:hover {
+                    .overlay {
+                        width: 100%;
+                        height: 100%;
+                        opacity: 1;
+                    }
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        &__info {
+            padding-left: 300px;
+            @include flex($justify: space-between);
+
+            &__following {
+                @include flex();
+
+                &>div {
+                    padding: 10px;
+                    margin: 0 10px;
+                    text-transform: capitalize;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+            }
+
+            &__name {
+                text-transform: capitalize;
+                font-weight: 700;
+                padding: 10px 0;
+                font-size: 30px;
+
+                @media (max-width: 768px) {
+                    font-size: 20px;
+                }
+            }
+
+            &__edit {
+                margin-right: 20px;
+                padding: 10px;
+                text-transform: capitalize;
+                background-color: #eee;
+                color: #000;
+                border-radius: 10px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: $reg_transition;
+
+                &:hover {
+                    background-color: darken(#eee, 10%);
+                }
+            }
+
+        }
+    }
+
+    &__bottom {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        gap: 30px;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+
+        }
+
+        &__sidebar {
+            position: sticky;
+            top: 90px;
+            z-index: 1000;
+            height: calc(100vh - 90px); // i put that beacuse without it -- sidebar sticky wouldnot work -- so you have to select the height
+
+            @media (max-width: 768px) {
+                position: inherit;
+                z-index: inherit;
+                top: inherit;
+                height: inherit;
+            }
+
+            &__friendsCard,
+            &__introCard {
+                background-color: #fff;
+                padding: 20px;
+                margin-bottom: 20px;
+
+                &__title {
+                    font-weight: 700;
+                    font-size: 25px;
+                    text-transform: capitalize;
+                }
+            }
+
+            &__introCard {
+                &__content {
+                    line-height: 3;
+
+                    &__bio {
+                        text-align: center;
+                    }
+
+                    &__study {}
+
+                    &__status {}
+                }
+            }
+
+            &__friendsCard {
+                &__friendsList {
+                    margin-top: 20px;
+
+                    @include flex($justify: space-between);
+
+                    &__friend {
+                        @include flex($dir: column);
+                        transition: $reg_transition;
+                        color: #000;
+
+
+                        &__img {
+                            width: 100px;
+                            height: 100px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            transition: $reg_transition;
+
+                            &:hover {
+                                transform: scale(1.1);
+                            }
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                transition: $reg_transition;
+                            }
+                        }
+
+                        &__name {
+                            text-align: center;
+                            font-weight: 700;
+                            text-transform: capitalize;
+                            font-size: 12px;
+                            padding: 0 10px;
+                        }
+                    }
+                }
+
+                &__btn {
+                    margin: 30px auto 0;
+                }
+            }
+        }
+    }
+
+    &__editPhoto {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5000;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        opacity: 0;
+        transition: $reg_transition;
+        visibility: hidden;
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .overlay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(#000000, .7);
+  z-index: 2000;
+            @include flex();
+        }
+
+        &__box {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            background-color: #fff;
+            padding: 30px;
+
+            &__title {
+                font-size: 30px;
+                text-transform: capitalize;
+                text-align: center;
+                font-weight: 700;
+                padding-bottom: 20px;
+            }
+
+            &__editCover {
+                &__img {
+                    width: 100%;
+                    height: 300px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+
+            &__editProfilePhoto {
+                position: relative;
+
+                &__img {
+                    position: absolute;
+                    bottom: -50px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+            }
+
+            &__closeIcon {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+
+            &__btn {
+                font-weight: 700;
+                margin: 80px auto;
+            }
+        }
+
+    }
+}

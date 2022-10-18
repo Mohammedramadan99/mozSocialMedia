@@ -1,12 +1,9 @@
 import nc from 'next-connect';
-// import Post from '../../../../models/Post';
 
-import fs from "fs"
-
-import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
+import dbConnect from '../../../../utils/db/dbConnect';
+import Comment from '../../../../models/Comment';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
-import mongoose from 'mongoose';
 const handler = nc();
 
 //----------------------------------------------------------------
@@ -26,7 +23,6 @@ handler.get(async (req, res) =>
     {
         res.json(error);
     }
-
 })
 //----------------------------------------------------------------
 //CREATE POST

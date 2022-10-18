@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import PostAddIcon from '@mui/icons-material/PostAdd';
+import PostAddIcon from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,6 +20,9 @@ function Navbar()
     const dispatch = useDispatch()
     const router = useRouter()
     let dropdownref = useRef()
+    const store = useSelector(state => state?.users)
+    const { userAuth, loggedOut } = store
+
     const [icons, setIcons] = useState([
         {
             icon: <HomeIcon />,
@@ -33,14 +36,12 @@ function Navbar()
         },
         {
             icon: <PostAddIcon />,
-            title: 'Write',
-            link: "/writePost"
+            title: 'profile',
+            link: `/user/${userAuth?._id}`
         }
     ])
 
     const [startSearch, setStartSearch] = useState(false)
-    const store = useSelector(state => state?.users)
-    const { userAuth, loggedOut } = store
     const [activePage, setActivePage] = useState('Home')
     const [opened, setOpened] = useState(false)
 
