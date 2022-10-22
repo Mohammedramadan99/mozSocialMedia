@@ -4,7 +4,7 @@ const dbConnect = async () => {
   try
   {
     await mongoose.connect(
-      "mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia", //"mongodb://localhost:27017/mozSocialMedia", //
+      "mongodb+srv://mohammed:m1964118@cluster0.s2l2lu7.mongodb.net/mozSocialmedia", // "mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia", //"mongodb://localhost:27017/mozSocialMedia", //
       {
         // useCreateIndex: true,
         // useFindAndModify: false,
