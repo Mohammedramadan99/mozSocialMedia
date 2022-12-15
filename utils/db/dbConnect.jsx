@@ -4,7 +4,6 @@ const connection = {};
 
 async function connect()
 {
-  console.log(process.env.MONGODB_URL)
   if (connection.isConnected)
   {
     console.log('already connected');
@@ -20,8 +19,8 @@ async function connect()
     }
     await mongoose.disconnect();
   }
-  const db = await mongoose.connect('mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia'); // "mongodb://localhost:27017/mozSocialMedia" // 'mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia' // "mongodb://localhost:27017/mozSocialMedia"
-  // const db = await mongoose.connect("mongodb://localhost:27017/mozSocialMedia"); // "mongodb://localhost:27017/mozSocialMedia" // 'mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia' // "mongodb://localhost:27017/mozSocialMedia"
+  // const db = await mongoose.connect('mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia'); // "mongodb://localhost:27017/mozSocialMedia" // 'mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia' // "mongodb://localhost:27017/mozSocialMedia"
+  const db = await mongoose.connect(process.env.MONGODB_URL); // "mongodb://localhost:27017/mozSocialMedia" // 'mongodb+srv://Ecommerce:m1964118@cluster0.7n14b.mongodb.net/mozSocialMedia' // "mongodb://localhost:27017/mozSocialMedia"
   
   console.log('new connection');
   connection.isConnected = db.connections[0].readyState;
