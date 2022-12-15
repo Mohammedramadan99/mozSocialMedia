@@ -3,7 +3,7 @@ import nc from 'next-connect';
 
 import fs from "fs"
 import cloudinary from 'cloudinary'
-import dbConnect, { disconnect } from '../../../../utils/db/dbConnect';
+import db from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
 import photoUpload from '../../../../utils/photoUpload';
@@ -26,7 +26,7 @@ cloudinary.config({
 });
 handler.use(isAuth).put(photoUpload.single("image"), async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     const { _id } = req.user;
     try
     {
@@ -47,6 +47,7 @@ handler.use(isAuth).put(photoUpload.single("image"), async (req, res) =>
     {
         res.json(error.message);
     }
+    await db.disconnect();
 })
 
 

@@ -1,3 +1,1 @@
-# install packages and try redux with making sign in
-# edit the upload profile photos to suit the new change
-# create user get again 
+# if likes added good but active class doesn't add to the btn : you just have to check if current user's id is the id who added to likes or another one ? 

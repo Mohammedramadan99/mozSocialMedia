@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 
-import dbConnect from '../../../../utils/db/dbConnect';
+import db from '../../../../utils/db/dbConnect';
 import Comment from '../../../../models/Comment';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
@@ -12,7 +12,7 @@ const handler = nc();
 
 handler.get(async (req, res) =>
 {
-    await dbConnect()
+    await db.connect()
     const { id } = req.query;
     //check if user id is valid
     try
@@ -23,13 +23,42 @@ handler.get(async (req, res) =>
     {
         res.json(error);
     }
+    await db.disconnect();
 })
+
+//----------------------------------------------------------------
+// update profile
+//----------------------------------------------------------------
+
+handler.put(async (req, res) =>
+{
+    await db.connect();
+    try
+    {
+        let user = await User.findById(req.query.id);
+
+        user = await User.findByIdAndUpdate(req.query.id, req.body, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+
+        res.status(200).json({
+            success: true,
+            user,
+        });
+    } catch (error)
+    {
+        res.json(error.message);
+    }
+    await db.disconnect();
+});
 //----------------------------------------------------------------
 //CREATE POST
 //----------------------------------------------------------------
 // handler.use(isAuth).post(async (req, res) =>
 // {
-//     await dbConnect();
+//     await db.connect();
 //     const { id } = req.user;
 //     //Display message if user is blocked
 //     //Check for bad words

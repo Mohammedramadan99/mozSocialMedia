@@ -3,7 +3,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { toggleAddLikesToPost, toggleAddDisLikesToPost, fetchPostsAction } from "../../store/postsSlice"
-import { createCommentAction } from '../../store/commentSlices'
+import { createCommentAction, getCommentsAction } from '../../store/commentSlices'
 import { useDispatch, useSelector } from 'react-redux'
 import Alert from '../Alert';
 import Image from 'next/image';
@@ -17,7 +17,9 @@ function Post({ direction, post, profile })
 {
     const dispatch = useDispatch()
     const { userAuth } = useSelector(state => state.users)
-    const { postLists, loading : postLoading } = useSelector(state => state.posts)
+    const { comments } = useSelector(state => state.comments)
+    const [postComments, setPostComments] = useState([])
+    const { postLists, loading: postLoading, likeLoading } = useSelector(state => state.posts)
     const [commentContent, setCommentContent] = useState("")
     const comment = useSelector(state => state?.comments);
     const { loading : commentLoading, appErr, serverErr, commentCreated } = comment;
@@ -67,7 +69,16 @@ function Post({ direction, post, profile })
             setShowDisliked(false)
         }
     }, [post?.likes, postLists, showLiked, showDisliked])
-
+    useEffect(() =>
+    {
+        if (direction === "user__bottom__postsGroup")
+        {
+            dispatch(getCommentsAction())
+            setPostComments(comments?.filter(item => item.post === post._id))
+        }
+        console.log(postComments)
+    }, [])
+    
     return (
         <div className={`${direction}__posts__container__container`} style={{position:'relative'}}>
             <div className={`${direction}__posts__container__post`}>
@@ -93,9 +104,19 @@ function Post({ direction, post, profile })
                 <div className={`${direction}__posts__container__post__numbers`}>
                     <div className={`${direction}__posts__container__post__numbers__likesNums"`}>
                         <div className={`${direction}__posts__container__post__numbers__commentsNums`}>
-                            <span> {post?.likes?.length} <strong> like </strong> </span>
-                            <span> {post?.disLikes?.length} <strong> dislike </strong> </span>
-                            <span> {post?.comments?.length} <strong> comments </strong> </span>
+                            {likeLoading ? (
+                                <div style={{}}>
+                                    <Spinner />
+                                </div>
+                            ): (
+                                    <>
+                                        <span> {post?.likes?.length} <strong> like </strong> </span>
+                                        <span> {post?.disLikes?.length} <strong> dislike </strong> </span>
+                                        <span> {
+                                            direction === "user__bottom__postsGroup" ? postComments?.length : post?.comments?.length
+                                        } <strong> comments </strong> </span>
+                                    </>
+                                )}
                         </div>
                     </div>
                 </div>
@@ -129,7 +150,8 @@ function Post({ direction, post, profile })
                     </form>
                 </div>
                 <div className={`${direction}__posts__container__commentsGroupe__comments`}>
-                    {post?.comments?.map((comment, inx) => <Comment key={inx} comment={comment} />)}
+                    {direction === "user__bottom__postsGroup" ? postComments?.map((comment, inx) => <Comment key={inx} comment={comment} />) : post?.comments?.map((comment, inx) => <Comment key={inx} comment={comment} />)}
+                    
                 </div>
             </div>
             {/* {serverErr || appErr ? (

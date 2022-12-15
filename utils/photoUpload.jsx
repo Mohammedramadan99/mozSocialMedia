@@ -17,10 +17,11 @@ const multerFilter = (req, file, cb) =>
         );
     }
 };
+const maxSize = 1 * 1024 * 1024; // 1mb
 const photoUpload = multer({
     storage: multerStorage,
     fileFilter: multerFilter,
-    limits: { fileSize: 5000000 },
+    limits: { fileSize: maxSize },
 });
 
 export default photoUpload

@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Friend from './Friend'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import SchoolIcon from '@mui/icons-material/School';
 import EditIcon from '@mui/icons-material/Edit';
+import {updateUserAction,userProfileAction} from '../../store/usersSlice'
+import FollowPersons from './FollowPersons';
 export default function Sidebar({ profile }) 
 {
-    const { userAuth, usersList } = useSelector(state => state.users)
+    const dispatch = useDispatch()
+    const { userAuth, usersList, isUpdated } = useSelector(state => state.users)
+    const [showFriends,setShowFriends] = useState({status:false,data:[],type:""})
     const followers = usersList?.filter(user =>
     {
         const u = profile?.followers?.find(f =>
@@ -35,40 +39,72 @@ export default function Sidebar({ profile })
         })
         return u
     })
-    const [edit,setEdit] = useState(false)
+    const [edit, setEdit] = useState(false)
+    const [bio,setBio] = useState("")
+    const [study, setStudy] = useState("")
+    const [relationShip, setRelationShip] = useState("")
+
+    const editProfileHandler = e =>
+    {
+        e.preventDefault()
+        const data = {
+            bio,
+            relationShip,
+            study
+        }
+        dispatch(updateUserAction(data))
+    }
+
+    useEffect(() =>
+    {
+        setRelationShip(profile?.relationShip)
+        setBio(profile?.bio)
+        setStudy(profile?.study)
+    }, [profile])
+    useEffect(() => {
+        if (isUpdated) {
+            dispatch(userProfileAction(profile._id))
+            setEdit(false)
+        }
+    }, [isUpdated])
+    
     return (
         <div className='user__bottom__sidebar'>
             <div className="user__bottom__sidebar__introCard" style={{position:"relative"}}>
-                <div className="user__bottom__sidebar__introCard__edit" onClick={() => setEdit(!edit)} style={{position:"absolute",right:"0",paddingRight:"20px",cursor:"pointer"}}> <EditIcon/> </div>
+                <div className="user__bottom__sidebar__introCard__edit" onClick={() => setEdit(!edit)} style={{ position: "absolute", right: "0", paddingRight: "20px", cursor: "pointer" }}>
+                    {profile?._id === userAuth?._id && <EditIcon /> }
+                </div>
+                
                 <div className="user__bottom__sidebar__introCard__title">
                     intro
                 </div>
                 <div className="user__bottom__sidebar__introCard__content">
-                    {edit ? (
-                        <form>
-                            <div className="user__bottom__sidebar__introCard__content__bio">
+                    {edit? (
+                        <form className='user__bottom__sidebar__introCard__content__form' onSubmit={e => editProfileHandler(e)}>
+                            <div className="user__bottom__sidebar__introCard__content__form__bio">
                                 <label>bio</label>
-                                <input type="text" />
+                                <input type="text" value={bio} onChange={e => setBio(e.target.value)} /> 
                             </div>
-                            <div className="user__bottom__sidebar__introCard__content__study">
+                            <div className="user__bottom__sidebar__introCard__content__form__study">
                                 <label>study</label>
-                                <input type="text" />
+                                <input type="text" value={study} onChange={e => setStudy(e.target.value)} />
                             </div>
-                            <div className="user__bottom__sidebar__introCard__content__status">
-                                <label>relashon ship</label>
-                                <input type="text" />
+                            <div className="user__bottom__sidebar__introCard__content__form__status">
+                                <label> status </label>
+                                <input type="text" value={relationShip} onChange={e => setRelationShip(e.target.value)} />
                             </div>
-                        </form>
+                            <input type="submit" className='user__bottom__sidebar__introCard__content__form__btn common_btn' />
+                        </form> 
                     ): (
                     <>
                         <div className="user__bottom__sidebar__introCard__content__bio">
-                            Full Stack Developer
+                            {profile?.bio ? profile?.bio : "_____________________"}
                         </div>
                         <div className="user__bottom__sidebar__introCard__content__study">
-                            <SchoolIcon /> Studied at Faculty of commerce
+                            <SchoolIcon style={{marginRight:"10px"}} /> {profile?.study ? profile?.study : "_____________________"}
                         </div>
                         <div className="user__bottom__sidebar__introCard__content__status">
-                            <FavoriteIcon /> single
+                            <FavoriteIcon style={{ marginRight: "10px" }} /> {profile?.relationShip ? profile?.relationShip : "_____________________"}
                         </div>
                     </>
                     )}
@@ -79,19 +115,26 @@ export default function Sidebar({ profile })
                     followers
                 </div>
                 <div className="user__bottom__sidebar__friendsCard__friendsList">
-                    {followers?.map(user => <Friend user={user} />)}
+                    {followers.length >= 1 ? followers?.map(user => <Friend user={user} />) : <div style={{textAlign:"center",width:"100%"}}> (0) followers </div>}
+
                 </div>
-                <div className="user__bottom__sidebar__friendsCard__btn common_btn">see all </div>
+                {
+                    followers?.length >= 2 && <div className="user__bottom__sidebar__friendsCard__btn common_btn" onClick={() => setShowFriends({ status: true, data: followers,type:"followers" })}> see all </div>
+                }
+                
             </div>
             <div className="user__bottom__sidebar__friendsCard">
                 <div className="user__bottom__sidebar__friendsCard__title">
                     following
                 </div>
                 <div className="user__bottom__sidebar__friendsCard__friendsList">
-                    {following?.map(user => <Friend user={user} />)}
+                    {following.length > 0 ? following?.map(user => <Friend user={user} />) : <div style={{ textAlign: "center", width: "100%" }}> (0) following </div>}
                 </div>
-                <div className="user__bottom__sidebar__friendsCard__btn common_btn">see all</div>
+                {
+                    following?.length > 2 && <div className="user__bottom__sidebar__friendsCard__btn common_btn" onClick={() => setShowFriends({status:true,data: following,type:"following"})}>see all</div>
+                }
             </div>
+            <FollowPersons data={showFriends?.data} title={showFriends.type === "following" ? `${profile?.name}'s following persons` : `${profile?.name}'s followers persons`} setShowFriends={setShowFriends} showFriends={showFriends} /> 
         </div>
     )
 }

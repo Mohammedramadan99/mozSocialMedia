@@ -9,7 +9,7 @@ export default function Friend({ user })
                 <div className="user__bottom__sidebar__friendsCard__friendsList__friend__img">
                     <img src={user?.profilePhoto} alt="img" />
                 </div>
-                <div className="user__bottom__sidebar__friendsCard__friendsList__friend__name">{user.firstName} {user.lastName}</div>
+                <div className="user__bottom__sidebar__friendsCard__friendsList__friend__name">{user.name}</div>
             </a>
         </Link>
     )

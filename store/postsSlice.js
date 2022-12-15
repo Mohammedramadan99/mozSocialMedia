@@ -136,7 +136,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
     };
     console.log(config);
     try {
-      const { data } = await axios.put(
+      const { data } = await axios.patch(
         `/api/posts/likes`,
         { postId },
         config
@@ -198,13 +198,9 @@ const postSlice = createSlice({
     builder.addCase(createpostAction.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(resetPost, (state, action) => {
-      state.isCreated = true;
-    });
     builder.addCase(createpostAction.fulfilled, (state, action) => {
-      state.postCreated = action?.payload;
+      state.isCreated = true;
       state.loading = false;
-      state.isCreated = false;
       state.appErr = null;
       state.serverErr = null;
     });
@@ -288,31 +284,31 @@ const postSlice = createSlice({
     });
     //Likes
     builder.addCase(toggleAddLikesToPost.pending, (state, action) => {
-      state.loading = true;
+      state.likeLoading = true;
     });
     builder.addCase(toggleAddLikesToPost.fulfilled, (state, action) => {
       state.likes = action?.payload;
-      state.loading = false;
+      state.likeLoading = false;
       state.appErr = null;
       state.serverErr = null;
     });
     builder.addCase(toggleAddLikesToPost.rejected, (state, action) => {
-      state.loading = false;
+      state.likeLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
     //DisLikes
     builder.addCase(toggleAddDisLikesToPost.pending, (state, action) => {
-      state.loading = true;
+      state.likeLoading = true;
     });
     builder.addCase(toggleAddDisLikesToPost.fulfilled, (state, action) => {
       state.dislikes = action?.payload;
-      state.loading = false;
+      state.likeLoading = false;
       state.appErr = null;
       state.serverErr = null;
     });
     builder.addCase(toggleAddDisLikesToPost.rejected, (state, action) => {
-      state.loading = false;
+      state.likeLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });

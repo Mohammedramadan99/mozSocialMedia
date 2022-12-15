@@ -3,9 +3,16 @@ import nc from 'next-connect';
 import Post from '../../../models/Post';
 import User from '../../../models/User';
 import Comment from '../../../models/Comment';
-import cloudinary from 'cloudinary'
-import dbConnect from '../../../utils/db/dbConnect';
+import db from '../../../utils/db/dbConnect';
 import { isAuth } from '../../../utils/auth';
+import photoUpload from '../../../utils/photoUpload';
+import cloudinary from "cloudinary";
+
+cloudinary.config({
+    cloud_name: "dtmjc8y9z",
+    api_key: "379966828288349",
+    api_secret: "a41LSvU3XXAJuQOLxorhOVFPauw",
+});
 
 export const config = {
     api: {
@@ -16,79 +23,71 @@ export const config = {
 }
 
 const handler = nc();
-cloudinary.config({
-    cloud_name: 'dtmjc8y9z',
-    api_key: '379966828288349',
-    api_secret: 'a41LSvU3XXAJuQOLxorhOVFPauw',
-});
+
+
 //----------------------------------------------------------------
 // GET POSTS
 //----------------------------------------------------------------
 
 handler.get(async (req, res) =>
 {
-    await dbConnect();
-    const posts = await Post.find().populate('comments').populate('user')
-    res.json(posts)
-    await mongoose.disconnect()
-;
+    await db.connect();
+    try {
+        const posts = await Post.find().populate('comments').populate('user')
+        res.status(200).json(posts)
+    } catch (err) {
+        res.status(500).json(err.message)
+    }
+    await db.disconnect();
 })
-//----------------------------------------------------------------
-//CREATE POST
-//----------------------------------------------------------------
+
+// ----------------------------------------------------------------
+// CREATE POST
+// ----------------------------------------------------------------
+
 handler.use(isAuth).post(async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     const { _id } = req.user;
     
-    // Display message if user is blocked
-    // Check for bad words
-    // const filter = new Filter();
-    // const isProfane = filter.isProfane(req.body.title, req.body.description);
-    // //Block user
-    // if (isProfane)
-    // {
-    //     await User.findByIdAndUpdate(id, {
-    //         isBlocked: true,
-    //     });
-    //     throw new Error(
-    //         "Creating Failed because it contains profane words and you have been blocked"
-    //     );
-    // }
-
-    //Prevet user f his account is a starter account
-
-    //1. Get the path to img
-
     try
     {
-        console.log(req.user.id)
-        const img = req.body.img
-        const result = await cloudinary.v2.uploader.upload(img, {
-            folder: "blog",
-        });
+        let images = [];
+
+        if (typeof req.body.images === "string")
+        {u
+            images.push(req.body.images);
+        } else
+        {
+            images = req.body.images;
+        }
+
+        const imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++)
+        {
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+                folder: "ecommerce",
+            });
+
+            imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
+        }
+
+        req.body.images = imagesLinks;
         const post = await Post.create({
             ...req.body,
             user: _id,
-            image: result.secure_url
+            image: imagesLinks[0]?.url
         });
-        //update the user post count
-        await User.findByIdAndUpdate(
-            _id,
-            {
-                $inc: { postCount: 1 },
-            },
-            {
-                new: true,
-            }
-        );
-
-        //Remove uploaded img
         res.json(post);
     } catch (error)
     {
         res.json(error.message);
     }
+    await db.disconnect();
 })
 
 

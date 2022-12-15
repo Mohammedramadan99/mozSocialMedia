@@ -3,13 +3,13 @@
 
 import nc from 'next-connect';
 import User from '../../../models/User';
-import dbConnect, { disconnect } from '../../../utils/db/dbConnect';
+import db from '../../../utils/db/dbConnect';
 
 const handler = nc();
 
 handler.post(async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     const userExists = await User.findOne({ email: req?.body?.email });
 
     if (userExists) throw new Error("User already exists");
@@ -26,6 +26,8 @@ handler.post(async (req, res) =>
     {
         res.json(error.message);
     }
+    await db.disconnect();
+
 });
 
 export default handler;

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsersAction, followUserAction, unfollowUserAction, userProfileAction } from '../../store/usersSlice'
@@ -8,17 +9,14 @@ import Person from './Person'
 function Sidebar()
 {
     const dispatch = useDispatch()
+    const router = useRouter()
     const users = useSelector(state => state.users)
     const [userlogged, setUserLogged] = useState({})
     const { usersList, profile,
-        profileLoading,
-        profileAppErr,
-        profileServerErr,
-        followed,
-        unFollowed,
+        usersCount,
         userAuth, appErr } = users
     const [loggedIn, setLoggedIn] = useState(false)
-    const usersFiltered = usersList !== {} && usersList?.filter(user => user?._id !== userAuth?._id)
+    const usersFiltered = usersList !== {} && usersList && usersList?.filter(user => user?._id !== userAuth?._id)
     const followUserHandler = (id) =>
     {
         // dispatch(followUserAction(id))
@@ -46,7 +44,7 @@ function Sidebar()
     useEffect(() =>
     {
 
-        dispatch(fetchUsersAction(""))
+        dispatch(fetchUsersAction(4))
         // dispatch(userProfileAction(userAuth?._id))
     }, [])
     return (
@@ -78,18 +76,18 @@ function Sidebar()
                         </div>
                     </div>
                 </a>
-            </Link>
+        </Link>
             <hr />
             <div className="mainPage__left__sidebar__G2">
                 <div className="mainPage__left__sidebar__G2__head">
                     people you may know
                 </div>
                 <div className="mainPage__left__sidebar__G2__persons">
-                    {usersFiltered?.map((user, inx) => (
+                    {usersFiltered.length >= 1 ? usersFiltered?.map((user, inx) => (
                         <Person key={inx} user={user} />
-                    ))}
+                    )) : "there's no persons"}
                     {/* {followStatus()} */}
-                    <div className="mainPage__left__sidebar__G2__persons__seeMore common_btn"> more </div>
+                    {usersCount > 4 && usersCount !== 5 && <div className="mainPage__left__sidebar__G2__persons__seeMore common_btn" onClick={() => router.push("/people")}> more </div>} 
                 </div>
             </div>
         </div>

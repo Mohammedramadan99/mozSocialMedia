@@ -15,12 +15,14 @@ import { useRef } from 'react'
 import { useRouter } from 'next/router'
 import { logoutAction } from '../../store/usersSlice'
 import Image from 'next/image'
+import { fetchNotificationsAction } from '../../store/notificationsSlice'
 function Navbar()
 {
     const dispatch = useDispatch()
     const router = useRouter()
     let dropdownref = useRef()
     const store = useSelector(state => state?.users)
+    const { allNotifications } = useSelector(state => state?.notifications)
     const { userAuth, loggedOut } = store
 
     const [icons, setIcons] = useState([
@@ -44,6 +46,7 @@ function Navbar()
     const [startSearch, setStartSearch] = useState(false)
     const [activePage, setActivePage] = useState('Home')
     const [opened, setOpened] = useState(false)
+    const [notificationOpened, setNotificationOpened] = useState(false)
 
     const logoutHandler = () =>
     {
@@ -56,6 +59,7 @@ function Navbar()
             if (!dropdownref.current.contains(e.target))
             {
                 setOpened(false)
+                setNotificationOpened(false)
                 console.log(dropdownref.current)
             }
         }
@@ -72,6 +76,10 @@ function Navbar()
             router.push('/login')
         }
     }, [loggedOut])
+    useEffect(() => {
+        dispatch(fetchNotificationsAction())
+    }, [])
+    
     return (
         <div className="mainNav">
             <div className="nav-container" >
@@ -112,33 +120,53 @@ function Navbar()
                             )}
                         </a>
                     </Link>
-                    <div className="mainNav__right__item nav-icon ">
+                    <div className="mainNav__right__item nav-icon" onClick={() => setNotificationOpened(!notificationOpened)}>
                         <NotificationsIcon />
                     </div>
                     <div className="mainNav__right__item nav-icon " onClick={() => setOpened(!opened)}>
                         <SettingsIcon />
                     </div>
 
-                    <ul className={opened ? `mainNav__right__dropDown active` : "mainNav__right__dropDown inactive"} >
+                    <ul className={opened ? `mainNav__right__dropDown options active` : "mainNav__right__dropDown inactive"} >
                         {userAuth && (
                             <DropdownItem icon={<LogoutIcon />} text="logout" func={logoutHandler} />
                         )}
                         {!userAuth && (
                             <DropdownItem icon={<LoginIcon />} text="login" func={() => router.push('/login')} />
                         )}
-
+                    </ul>
+                    <ul className={notificationOpened ? `mainNav__right__dropDown notifications active` : "mainNav__right__dropDown inactive"} >
+                        <h6 style={{padding:"20px 20px 10px"}}> last 4 notifications </h6>
+                        {userAuth && allNotifications?.length > 1 ? allNotifications?.map(item => <NotificationsItem text={item.title} userImg={item?.reactedUser?.profilePhoto} />) : (
+                            <div style={{padding:"20px"}}>
+                                there is no notifications now
+                            </div>
+                        )}
                     </ul>
                 </div>
             </div >
         </div >
     )
 }
+
 function DropdownItem({ icon, text, func })
 {
     return (
         <li className='mainNav__right__dropDown__item' onClick={func}>
             <div className="mainNav__right__dropDown__item__icon"> {icon} </div>
             <div className="mainNav__right__dropDown__item__text"> {text} </div>
+        </li>
+    )
+}
+function NotificationsItem({ userImg, text, func })
+{
+    return (
+        <li className='mainNav__right__dropDown__item' onClick={func}>
+            <div className="mainNav__right__dropDown__item__img" style={{flex:"3",position:"relative",width:"50px",height:"50px",borderRadius:"50%",overflow:"hidden"}}>
+                {userImg && <Image src={userImg} layout="fill" objectFit="cover" alt="img" />}
+                
+            </div>
+            <div className="mainNav__right__dropDown__item__text" style={{ flex: "9" }}> {text} </div>
         </li>
     )
 }

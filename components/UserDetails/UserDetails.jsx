@@ -9,6 +9,7 @@ import { fetchUsersAction, followUserAction, unfollowUserAction, uploadProfilePh
 import { useRouter } from 'next/router'
 import { wrapper } from '../../store/store'
 import Image from 'next/image'
+import Edit from '@mui/icons-material/Edit'
 
 function UserDetails()
 {
@@ -18,21 +19,21 @@ function UserDetails()
     const [image, setImage] = useState("");
     const [imagePreview, setImagePreview] = useState("")
     //User data from store
-    const users = useSelector(state => state.users);
-    const [editPhoto, setEditPhoto] = useState(false) 
-    const [editCover, setEditCover] = useState(false)
     const {
         profile,
         profileLoading,
         profileAppErr,
         profileServerErr,
         coverPhoto,
-        followed, 
+        followed,
         unFollowed,
         userAuth,
         loading,
         profilePhoto
-    } = users;
+    } = useSelector(state => state.users);
+    const [editPhoto, setEditPhoto] = useState(false) 
+    const [editCover, setEditCover] = useState(false)
+    
     // const { likes, dislikes } = useSelector(state => state.post)
     // const comment = useSelector(state => state?.comment);
 
@@ -68,112 +69,142 @@ function UserDetails()
         console.log(image)
         dispatch(uploadCoverPhototAction(theImage))
     }
-    useEffect(() =>
-    {
-        dispatch(userProfileAction(id))
-    }, [dispatch, id, followed, unFollowed])
-
     const closeHandler = () =>
     {
         setImagePreview('')
         setEditCover(false)
         setEditPhoto(false)
     }
-    return loading ? <Spinner /> : (
+    const [follow,setFollow] = useState(false)
+    useEffect(() =>
+    {
+        console.log("id", id)
+        dispatch(userProfileAction(id))
+        const ifFollowed = profile?.followers?.find(item => item === userAuth._id)
+        setFollow(ifFollowed ? true : false)
+    }, [dispatch, id, followed, unFollowed,profile?.followers?.length])
+
+    return  (
         <div className='user'>
-            <div className="user__top">
-                <div className="user__top__imgs">
-                    <div className="user__top__imgs__cover">
-                        {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditCover(true)} >change</div>}
-                        <div className="img--parent">
-                            {profile?.coverPhoto && <Image src={profile?.coverPhoto} alt="cover" layout='fill' />}  
-                        </div>
-                    </div>
-                    <div className="user__top__imgs__personalImg">
-                        {profile?._id === userAuth?._id && <div className="overlay" onClick={() => setEditPhoto(true)}>change</div>}
-                        {profile?.profilePhoto && <Image src={profile?.profilePhoto} alt="img" width={150} height={150} objectFit="cover" />}
-                    </div>
-                </div>
-                <div className="user__top__info">
-                    <div className="user__top__info__name "> {profile?.name} </div>
-                    <div className="user__top__info__following">
-                        {userAuth?._id !== profile?.id && (
-                            profile?.isFollowing ? (
-                                <div className="user__top__info__following__unFollowBtn" onClick={() => dispatch(unfollowUserAction(id))}>
-                                    unFollow
+            {/* {loading ? <Spinner /> : ( */}
+                <>
+                    <div className="user__top">
+                        <div className="user__top__img">
+                            <div className="user__top__img__cover">
+                                {profile?._id === userAuth?._id && !profile?.coverPhoto && <div className="overlay" onClick={() => setEditCover(true)} >
+                                    <div className="overlay__edit">
+                                        <Edit /> 
+                                    </div>
                                 </div>
-                            ) : (
-                                <div className="user__top__info__following__followBtn" onClick={() => dispatch(followUserAction(id))}>
-                                    follow
-                                </div>
-                            )
-                        )}
-                    </div>
-                </div>
-            </div>
-            <div className="user__bottom">
-                <Sidebar profile={profile} />
-                <div className="user__bottom__postsGroup">
-                    <Posts direction="user__bottom__postsGroup" user={profile} />
-                </div>
-
-            </div>
-            <div className={editCover ? "user__editPhoto active" : `user__editPhoto`}>
-                <div className="overlay">
-                    <div className="user__editPhoto__box">
-                        <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
-                        <div className="user__editPhoto__box__title">
-                            edit your cover
-                        </div>
-                        <div className="user__editPhoto__box__editCover">
-                            {imagePreview ? (
-                                <div className="user__editPhoto__box__editCover__img">
-                                    <img src={imagePreview} alt="Product Preview" />
-                                </div>
-                            ) : (
-                                <input type="file" accept="image/*" onChange={createPostImagesChange} />
-                            )}
-                        </div>
-                        <div className="user__editPhoto__box__editProfilePhoto">
-                            <div className="user__editPhoto__box__editProfilePhoto__img">
-                                <img src={profile?.profilePhoto} alt="profile" />
+                                }
+                                {profile?.coverPhoto ? (
+                                    <div className="img--parent">
+                                        <Image src={profile?.coverPhoto} alt="cover" objectFit='cover' layout='fill' />
+                                    </div>
+                                ) : (
+                                    <div className='coverTxt'>
+                                        cover image
+                                    </div>
+                                )}  
                             </div>
                         </div>
-
-                        <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploladcoverPhoto(e)}>
-                            update photos
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className={editPhoto ? "user__editPhoto active" : `user__editPhoto`}>
-                <div className="overlay">
-                    <div className="user__editPhoto__box">
-                        <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
-                        <div className="user__editPhoto__box__title">
-                            edit profile photo
-                        </div>
-                        <div className="user__editPhoto__box__editCover">
-                            <div className="user__editPhoto__box__editCover__img">
-                                <img src={profile?.coverPhoto} alt="cover" />
+                        <div className="user__top__info">
+                            <div className={profile?._id !== userAuth?._id ? "user__top__info__personalImg center" : "user__top__info__personalImg flex-start"}>
+                                {
+                                    profile?._id === userAuth?._id &&
+                                    <div className="overlay" onClick={() => setEditPhoto(true)}>
+                                        <div className="overlay__edit">
+                                            <Edit />
+                                        </div>
+                                    </div>
+                                }
+                                {profile?.profilePhoto ? <Image src={profile?.profilePhoto} alt="img" width={150} height={150} objectFit="cover" /> : (
+                                    <div className='personalImgTxt'>
+                                        profile image
+                                    </div>
+                                )}
+                            </div>
+                            <div className="user__top__info__name "> {profile?.name} </div>
+                            <div className="user__top__info__following">
+                                {userAuth?._id !== profile?.id && (
+                                    follow ? (
+                                        <div className="user__top__info__following__unFollowBtn" onClick={() => dispatch(unfollowUserAction(id))}>
+                                            unFollow
+                                        </div>
+                                    ) : (
+                                        <div className="user__top__info__following__followBtn" onClick={() => dispatch(followUserAction(id))}>
+                                            follow
+                                        </div>
+                                    )
+                                )}
                             </div>
                         </div>
-                        <div className="user__editPhoto__box__editProfilePhoto">
-                            {imagePreview ? (
-                                <div className="user__editPhoto__box__editProfilePhoto__img">
-                                    <img src={imagePreview} width="100" height="200" alt="Product Preview" />
-                                </div>
-                            ) : (
-                                <input type="file" accept="image/*" onChange={createPostImagesChange} />
-                            )}
-                        </div>
-
-                        <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploadProfilePhoto(e)}>
-                            update photos
+                    </div>
+                    <div className="user__bottom">
+                        <Sidebar profile={profile} />
+                        <div className="user__bottom__postsGroup">
+                            <Posts direction="user__bottom__postsGroup" user={profile} />
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div className={editCover ? "user__editPhoto active" : `user__editPhoto`}>
+                        <div className="overlay">
+                            <div className="user__editPhoto__box">
+                                <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
+                                <div className="user__editPhoto__box__title">
+                                    edit your cover
+                                </div>
+                                <div className="user__editPhoto__box__editCover">
+                                    {imagePreview ? (
+                                        <div className="user__editPhoto__box__editCover__img">
+                                            <img src={imagePreview} alt="Product Preview" />
+                                        </div>
+                                    ) : (
+                                        <input type="file" accept="image/*" onChange={createPostImagesChange} />
+                                    )}
+                                </div>
+                                <div className="user__editPhoto__box__editProfilePhoto">
+                                    <div className="user__editPhoto__box__editProfilePhoto__img">
+                                        <img src={profile?.profilePhoto} alt="profile" />
+                                    </div>
+                                </div>
+
+                                <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploladcoverPhoto(e)}>
+                                    update photos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={editPhoto ? "user__editPhoto active" : `user__editPhoto`}>
+                        
+                            <div className="overlay">
+                                <div className="user__editPhoto__box">
+                                    <div className="user__editPhoto__box__closeIcon" onClick={() => closeHandler()}> <CloseIcon /> </div>
+                                    <div className="user__editPhoto__box__title">
+                                        edit profile photo
+                                    </div>
+                                    <div className="user__editPhoto__box__editCover">
+                                        <div className="user__editPhoto__box__editCover__img">
+                                            <img src={profile?.coverPhoto} alt="cover" />
+                                        </div>
+                                    </div>
+                                    <div className="user__editPhoto__box__editProfilePhoto">
+                                        {imagePreview ? (
+                                            <div className="user__editPhoto__box__editProfilePhoto__img">
+                                                <img src={imagePreview} width="100" height="200" alt="Product Preview" />
+                                            </div>
+                                        ) : (
+                                            <input type="file" accept="image/*" onChange={createPostImagesChange} />
+                                        )}
+                                    </div>
+
+                                    <div className="user__editPhoto__box__btn common_btn" onClick={(e) => uploadProfilePhoto(e)}>
+                                        update photos
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </>
+            {/* )} */}
         </div >
     )
 }

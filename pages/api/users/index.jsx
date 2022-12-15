@@ -1,7 +1,7 @@
 import nc from 'next-connect';
 import User from '../../../models/User';
 import Post from '../../../models/Post';
-import dbConnect from '../../../utils/db/dbConnect';
+import db from '../../../utils/db/dbConnect';
 import mongoose from 'mongoose';
 
 const handler = nc();
@@ -12,16 +12,38 @@ const handler = nc();
 
 handler.get(async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     try
     {
-        const users = await User.find({}).populate({path:"posts",model: Post});
-        res.json(users);
+        const limit = req.query.limit
+        const usersCount = await User.countDocuments();
+        if (limit)
+        {
+            const users = await User.find().limit(limit);
+            res.status(200).json({
+                success: true,
+                users,
+                usersCount
+            });
+        } else
+        {
+            const users = await User.find().populate("posts");
+            res.status(200).json({
+                success: true,
+                users,
+                usersCount
+            });
+        }
     } catch (error)
     {
-        res.json(error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
-    await mongoose.disconnect()
+    await db.disconnect();
+
 });
+
 
 export default handler;

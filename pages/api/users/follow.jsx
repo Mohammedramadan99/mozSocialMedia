@@ -1,12 +1,12 @@
 import User from '../../../models/User';
 import nc from 'next-connect';
 import { isAuth } from '../../../utils/auth';
-import dbConnect from '../../../utils/db/dbConnect'
+import db from '../../../utils/db/dbConnect'
 const handler = nc();
 
 handler.use(isAuth).put(async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     const { followId } = req.body;
     const loginUserId = req.user.id;
     console.log(followId)
@@ -38,6 +38,8 @@ handler.use(isAuth).put(async (req, res) =>
         { new: true }
     );
     res.json("You have successfully followed this user");
+    await db.disconnect();
+
 })
 export const config = {
     api: {

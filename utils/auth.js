@@ -1,7 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
-import dbConnect from '../utils/db/dbConnect'
+import db from '../utils/db/dbConnect'
 const signToken = (user) => {
   console.log("ss");
   console.log(process.env.JWT_SECRET);
@@ -21,17 +21,17 @@ const signToken = (user) => {
 };
 const isAuth = expressAsyncHandler(async (req, res, next) =>
 {
-  await dbConnect()
+  await db.connect()
   let token;
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
     try {
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_KEY);
-        const {id} = decoded
+        const { id } = decoded
         //find the user by id
-        const user = await User.findById(decoded?.id).select("-password");
-        console.log("is Auth: " + user._id);
+        const user = await User.findById(id).select("-password");
+        console.log("is Auth: " + user);
         //attach the user to the request object
         req.user = user;
         next();
@@ -42,6 +42,7 @@ const isAuth = expressAsyncHandler(async (req, res, next) =>
   } else {
     throw new Error("There is no token attached to the header");
   }
+  await db.disconnect();
 });
 const isAdmin = async (req, res, next) => {
   if (req.user.isAdmin) {

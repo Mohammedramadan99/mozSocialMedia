@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
 //create schema
 const userSchema = new mongoose.Schema(
   {
@@ -24,21 +23,15 @@ const userSchema = new mongoose.Schema(
     bio: {
       type: String,
     },
+    study: {
+      type: String,
+    },
+    relationShip: {
+      type: String,
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
-    },
-    postCount: {
-      type: Number,
-      default: 0,
-    },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
-    isAdmin: {
-      type: Boolean,
-      default: false,
     },
     role: {
       type: String,
@@ -46,25 +39,10 @@ const userSchema = new mongoose.Schema(
     },
     isFollowing: {
       type: Boolean,
-      default: false,
     },
-    isUnFollowing: {
+    isDisLiked: {
       type: Boolean,
-      default: false,
     },
-    isAccountVerified: { type: Boolean, default: false },
-    accountVerificationToken: String,
-    accountVerificationTokenExpires: Date,
-
-    viewedBy: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
-    },
-
     followers: {
       type: [
         {
@@ -84,11 +62,6 @@ const userSchema = new mongoose.Schema(
     passwordChangeAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
-
-    active: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     toJSON: {
@@ -108,10 +81,10 @@ userSchema.virtual("posts", {
   localField: "_id",
 });
 
-//Account Type
-userSchema.virtual("accountType").get(function () {
-  const totalFollowers = this.followers?.length;
-  return totalFollowers >= 1 ? "Pro Account" : "Starter Account";
+userSchema.virtual("notifications", {
+  ref: "Notification",
+  foreignField: "user",
+  localField: "_id",
 });
 
 //Hash password
@@ -130,30 +103,30 @@ userSchema.methods.isPasswordMatched = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-//Verify account
-userSchema.methods.createAccountVerificationToken = async function () {
-  //create a token
-  const verificationToken = crypto.randomBytes(32).toString("hex");
-  this.accountVerificationToken = crypto
-    .createHash("sha256")
-    .update(verificationToken)
-    .digest("hex");
-  // create the expires to make the token not available after 10 m
-  this.accountVerificationTokenExpires = Date.now() + 30 * 60 * 1000; //10 minutes
-  return verificationToken;
-};
+// //Verify account
+// userSchema.methods.createAccountVerificationToken = async function () {
+//   //create a token
+//   const verificationToken = crypto.randomBytes(32).toString("hex");
+//   this.accountVerificationToken = crypto
+//     .createHash("sha256")
+//     .update(verificationToken)
+//     .digest("hex");
+//   // create the expires to make the token not available after 10 m
+//   this.accountVerificationTokenExpires = Date.now() + 30 * 60 * 1000; //10 minutes
+//   return verificationToken;
+// };
 
-//Password reset/forget
+// //Password reset/forget
 
-userSchema.methods.createPasswordResetToken = async function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
-  this.passwordResetToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
-  this.passwordResetExpires = Date.now() + 30 * 60 * 1000; //10 minutes
-  return resetToken;
-};
+// userSchema.methods.createPasswordResetToken = async function () {
+//   const resetToken = crypto.randomBytes(32).toString("hex");
+//   this.passwordResetToken = crypto
+//     .createHash("sha256")
+//     .update(resetToken)
+//     .digest("hex");
+//   this.passwordResetExpires = Date.now() + 30 * 60 * 1000; //10 minutes
+//   return resetToken;
+// };
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

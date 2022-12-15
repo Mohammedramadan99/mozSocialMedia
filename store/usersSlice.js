@@ -66,14 +66,16 @@ export const userProfileAction = createAsyncThunk(
         Authorization: `Bearer ${userAuth?.token}`,
       },
     };
-    
+    console.log("id from redux", id)
     //http call
     try {
       const { data } = await axios.get(
         `${origin}/api/users/profile/${id}`,
         config
       );
+
       return data;
+
     } catch (error) {
       if (!error?.response) {
         throw error;
@@ -156,17 +158,8 @@ export const updateUserAction = createAsyncThunk(
     //http call
     try {
       const { data } = await axios.put(
-        `${origin}/api/users`,
-        {
-          lastName: userData?.lastName,
-          firstName: userData?.firstName,
-          bio: userData?.bio,
-          email: userData?.email,
-        },
-        config
+        `${origin}/api/users/profile/${userAuth._id}`,userData,config
       );
-      //dispatch
-      dispatch(resetUserAction());
       return data;
     } catch (error) {
       if (!error.response) {
@@ -228,7 +221,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
 //fetch all users
 export const fetchUsersAction = createAsyncThunk(
   "user/list",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (num, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = process.browser && getState()?.users;
     const { userAuth } = user;
@@ -237,9 +230,12 @@ export const fetchUsersAction = createAsyncThunk(
         Authorization: `Bearer ${userAuth?.token}`,
       },
     };
-    try {
-      const { data } = await axios.get(`${origin}/api/users`, config);
-      return data;
+    try
+    {
+      let link = "";
+      num ? (link = `${origin}/api/users?limit=${num}`) : link = `${origin}/api/users`
+      const { data } = await axios.get(link, config);  
+    return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
@@ -566,7 +562,8 @@ const usersSlices = createSlice({
     });
     builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.usersList = action?.payload;
+      state.usersList = action?.payload.users;
+      state.usersCount = action?.payload.usersCount;
       state.appErr = null;
       state.serverErr = null;
     });
@@ -637,20 +634,20 @@ const usersSlices = createSlice({
 
     //Profile
     builder.addCase(userProfileAction.pending, (state, action) => {
-      state.profileLoading = true;
+      state.loading = true;
       state.profileAppErr = null;
       state.profileServerErr = null;
     });
     builder.addCase(userProfileAction.fulfilled, (state, action) => {
       state.profile = action?.payload;
-      state.profileLoading = false;
+      state.loading = false;
       state.profileAppErr = null;
       state.profileServerErr = null;
     });
     builder.addCase(userProfileAction.rejected, (state, action) => {
       state.profileAppErr = action?.payload?.message;
       state.profileServerErr = action?.error?.message;
-      state.profileLoading = false;
+      state.loading = false;
     });
 
     //update
@@ -662,7 +659,7 @@ const usersSlices = createSlice({
     builder.addCase(updateUserAction.fulfilled, (state, action) => {
       state.loading = false;
       state.userUpdated = action?.payload;
-      state.isUpdated = false;
+      state.isUpdated = true;
       state.appErr = null;
       state.serverErr = null;
     });

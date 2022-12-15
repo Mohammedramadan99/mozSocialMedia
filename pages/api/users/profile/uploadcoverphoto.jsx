@@ -3,7 +3,7 @@ import nc from 'next-connect';
 
 import fs from "fs"
 import cloudinary from 'cloudinary'
-import dbConnect from '../../../../utils/db/dbConnect';
+import db from '../../../../utils/db/dbConnect';
 import { isAuth } from '../../../../utils/auth';
 import User from '../../../../models/User';
 export const config = {
@@ -25,7 +25,7 @@ cloudinary.config({
 });
 handler.use(isAuth).put(async (req, res) =>
 {
-    await dbConnect();
+    await db.connect();
     const { _id } = req.user;
     console.log("back: " + _id)
     try
@@ -47,6 +47,8 @@ handler.use(isAuth).put(async (req, res) =>
     {
         res.json(error.message);
     }
+    await db.disconnect();
+
 })
 
 

@@ -9,14 +9,13 @@ const Posts = dynamic(() => import('./Posts'))
 
 const Sidebar = dynamic(() => import('./Sidebar'))
 
-
 function MainPage({ posts })
 {
-
     const router = useRouter()
     const { userAuth, serverErr, appErr: usererror } = useSelector(state => state.users)
     // const { appErr: posterror } = useSelector(state => state.post)
     // const { appErr: commenterror } = useSelector(state => state.comment)
+    
     useEffect(() =>
     {
         if (userAuth === null)

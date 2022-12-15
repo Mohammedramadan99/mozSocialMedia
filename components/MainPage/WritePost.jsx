@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PanoramaIcon from '@mui/icons-material/Panorama';
 // import { fetchCategoriesAction } from '../../redux/slices/category/categorySlice'
-import { createpostAction } from '../../store/postsSlice'
+import { createpostAction, reset } from '../../store/postsSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import UserDetails from '../UserDetails/UserDetails';
 import Image from 'next/image';
@@ -15,8 +15,9 @@ function WritePost({ dir, userDetails })
     const { isCreated, loading } = useSelector(state => state.posts)
     // const { categoryList } = useSelector(state => state?.category)
     const [message, setMessage] = useState('')
-    const [image, setImage] = useState('');
-    const [imagePreview, setImagePreview] = useState('')
+    const [images, setImages] = useState('');
+    const [description, setDescription] = useState('');
+    const [imagesPreview, setImagesPreview] = useState('')
     const [formData, setFormDate] = useState({
         description: "",
         category: "",
@@ -26,25 +27,46 @@ function WritePost({ dir, userDetails })
     // for inputs
     const [postContent, setPostContent] = useState(null)
 
-    const createPostImagesChange = (e) =>
+    const createProductSubmitHandler = (e) =>
     {
-        const file = e.target.files[0];
+        e.preventDefault();
 
-        const Reader = new FileReader();
-        Reader.readAsDataURL(file);
-
-        Reader.onload = () =>
-        {
-            if (Reader.readyState === 2)
-            {
-                setImage(Reader.result);
+        if (description) {
+            const data = {
+                description,
+                images
             }
-        };
+            dispatch(createpostAction(data));
+        }
+    };
+
+    const createProductImagesChange = (e) =>
+    {
+        const files = Array.from(e.target.files);
+
+        setImages([]);
+        setImagesPreview([]);
+
+        files.forEach((file) =>
+        {
+            const reader = new FileReader();
+
+            reader.onload = () =>
+            {
+                if (reader.readyState === 2)
+                {
+                    setImagesPreview((old) => [...old, reader.result]);
+                    setImages((old) => [...old, reader.result]);
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
     };
     const addPhotoHandler = () =>
     {
         setAddImg(!addImg)
-        addImg && setImagePreview("")
+        addImg && setImagesPreview("")
     }
     const onChange = (e) =>
     {
@@ -53,31 +75,22 @@ function WritePost({ dir, userDetails })
             [e.target.name]: e.target.value,
         }));
     };
-    const createPost = () =>
-    {
-        if (formData.description)
-        {
-            // const allData = new FormData();
-            // allData.append("description", formData?.description);
-            // allData.append("images", images);
-            const all = { description: formData.description, img:image }
-            dispatch(createpostAction(all))
-
-        } else
-        {
-            setMessage("you didn't write any thing!!")
-        }
-    }
 
     useEffect(() =>
     {
-        // dispatch(fetchCategoriesAction())
-    }, [])
+        if (isCreated)
+        {
+            setImagesPreview([])
+            setImages([])
+            setDescription("")
+            dispatch(reset())
+        }
+    }, [isCreated])
     // useEffect(() =>
     // {
     //     if (isCreated)
     //     {
-    //         setImagePreview("")
+    //         setImagesPreview("")
     //         setFormDate({
     //             description: "",
     //             category: "",
@@ -103,25 +116,18 @@ function WritePost({ dir, userDetails })
                 <div className={`${dir}__writePost__top`}>
                     {addImg && (
                         <>
-                            <input type="file" onChange={createPostImagesChange} />
-                            {/* {imagePreview && (
+                            <input type="file" onChange={createProductImagesChange} />
+                            {imagesPreview.length >= 1 && (
                                 <div className={`${dir}__writePost__top__postImg`}>
-                                    <Image src={imagePreview} width="100" height="200" alt="Product Preview" />
+                                    <img src={imagesPreview} alt="" />
                                 </div>
-                            )} */}
+                            )}
 
                         </>
                     )}
 
                     <div className={`${dir}__writePost__top__postContent`}>
-                        <textarea placeholder='what do you want to say?' value={formData.description} name="description" onChange={onChange}></textarea>
-                    </div>
-                    <div className={`${dir}__writePost__top__postCategory`}>
-                        {postContent || imagePreview && (
-                            <select name="category" onChange={onChange}>
-                                {/* {categoryList?.map(cat => <option key={cat._id} value={cat.title}> {cat.title} </option>)} */}
-                            </select>
-                        )}
+                        <textarea placeholder='what do you want to say?' value={description} name="description" onChange={e =>setDescription(e.target.value)} ></textarea>
                     </div>
                 </div>
                 <hr />
@@ -132,7 +138,7 @@ function WritePost({ dir, userDetails })
                         </div>
                         photo
                     </div>
-                    <button className={`${dir}__writePost__bottom__btn`} style={formData.description ? { opacity: "1" } : { opacity: ".3" }} onClick={() => createPost()}>
+                    <button className={`${dir}__writePost__bottom__btn`} style={description ? { opacity: "1" } : { opacity: ".3" }} onClick={e => createProductSubmitHandler(e)}>
                         post
                     </button>
                 </div>
