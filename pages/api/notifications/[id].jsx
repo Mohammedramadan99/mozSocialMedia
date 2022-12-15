@@ -2,7 +2,7 @@ import nc from 'next-connect'
 import db from '../../../utils/db/dbConnect'
 
 
-import Notification from "../../../Modal/NotificationsModal"
+import Notification from "../../../models/NotificationsModal"
 const handler = nc()
 
 handler.delete(async (req, res) =>
